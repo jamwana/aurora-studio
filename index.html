@@ -330,15 +330,14 @@
             transition: opacity 0.4s;
             overflow-y: auto;
         }
-        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-overlay.active { display: block; opacity: 1; }
 
         .modal-content {
             width: 100%;
-            max-width: 1400px;
-            margin: 40px auto;
-            padding: 60px;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 60px 40px;
             background: #fff;
-            position: relative;
         }
         .modal-close {
             position: fixed;
@@ -359,7 +358,7 @@
 
         .modal-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
         .modal-header h2 {
             font-family: var(--serif-zh);
@@ -376,8 +375,8 @@
 
         .modal-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
         }
         .modal-gallery img {
             width: 100%;
@@ -386,7 +385,25 @@
             cursor: zoom-in;
             transition: var(--transition);
         }
-        .modal-gallery img:hover { transform: scale(1.02); }
+        .modal-gallery img:hover { transform: scale(1.03); }
+
+        /* ===== Lightbox (single image zoom) ===== */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
 
         /* ===== Atelier ===== */
         .atelier-section {
@@ -588,6 +605,7 @@
             .newsletter-form { flex-direction: column; align-items: center; }
             .newsletter-form input { width: 100%; max-width: 300px; }
             .modal-content { padding: 24px; margin: 20px; }
+            .modal-gallery { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -943,7 +961,7 @@
             </h2>
         </div>
         <div class="gallery-grid">
-            <div class="gallery-item reveal stagger-1"><img src="images/gallery/IMG_3851.PNG" alt="Gallery"></div>
+            <div class="gallery-item reveal stagger-1"><img src="images/gallery/IMG_3851.jpg" alt="Gallery"></div>
             <div class="gallery-item reveal stagger-2"><img src="images/gallery/IMG_3839.jpg" alt="Gallery"></div>
             <div class="gallery-item reveal stagger-3"><img src="images/gallery/IMG_3840.jpg" alt="Gallery"></div>
             <div class="gallery-item reveal stagger-4"><img src="images/gallery/IMG_3841.jpg" alt="Gallery"></div>
@@ -996,6 +1014,9 @@
             </p>
         </div>
     </footer>
+
+    <!-- ===== Lightbox ===== -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()"></div>
 
     <!-- ===== Product Detail Modal ===== -->
     <div class="modal-overlay" id="modal">
@@ -1087,19 +1108,25 @@
             const modal = document.getElementById('modal');
             const content = document.getElementById('modalContent');
 
-            // Build image gallery
-            let imagesHtml = '';
+            // Use only images that actually exist in the product directory
+            const suffixes = [
+                '-hero.jpg', '-detail.jpg', '-full.jpg', '-angle.jpg',
+                '-angle2.jpg', '-back.jpg', '-pose.jpg', '-close.jpg',
+                '-portrait.jpg'
+            ];
+            const existingFiles = [];
             for (let i = 1; i <= 20; i++) {
                 const num = i.toString().padStart(2, '0');
-                imagesHtml += `<img src="images/products/${product.dir}/${num}-hero.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
-                imagesHtml += `<img src="images/products/${product.dir}/${num}-detail.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
-                imagesHtml += `<img src="images/products/${product.dir}/${num}-full.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
-                imagesHtml += `<img src="images/products/${product.dir}/${num}-angle.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
-                imagesHtml += `<img src="images/products/${product.dir}/${num}-angle2.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
-                imagesHtml += `<img src="images/products/${product.dir}/${num}-back.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
-                imagesHtml += `<img src="images/products/${product.dir}/${num}-pose.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
-                imagesHtml += `<img src="images/products/${product.dir}/${num}-close.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
-                imagesHtml += `<img src="images/products/${product.dir}/${num}-portrait.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
+                for (const suffix of suffixes) {
+                    existingFiles.push(`${num}${suffix}`);
+                }
+            }
+
+            let imagesHtml = '';
+            for (const file of existingFiles) {
+                const src = `images/products/${product.dir}/${file}`;
+                const baseName = file.replace('.jpg', '');
+                imagesHtml += `<img src="${src}" alt="${product.nameEn}" onclick="openLightbox(this.src)" onerror="this.style.display='none'">`;
             }
 
             content.innerHTML = `
@@ -1113,6 +1140,15 @@
             document.body.style.overflow = 'hidden';
         }
 
+        function openLightbox(src) {
+            const lb = document.getElementById('lightbox');
+            lb.innerHTML = `<img src="${src}" alt="Zoom">`;
+            lb.classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
         function closeModal() {
             const modal = document.getElementById('modal');
             modal.classList.remove('active');
@@ -1123,10 +1159,16 @@
         document.getElementById('modal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
+        });
 
-        // Close modal on Escape key
+        // Close modals on Escape key
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeModal();
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeModal();
+            }
         });
     </script>
 
