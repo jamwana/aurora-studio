@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>韶光 AURORA — 东方美学的当代收藏 | Contemporary Oriental Aesthetics</title>
+    <meta name="description" content="AURORA Studio — 以当代工艺诠释东方美学，每一尊人偶皆为限量收藏级艺术品。Limited edition collectible dolls inspired by Oriental aesthetics and traditional craftsmanship.">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Design Tokens ===== */
+        :root {
+            --bg-primary: #FAFAF8;
+            --bg-secondary: #F2F0EB;
+            --bg-dark: #1A1A18;
+            --text-primary: #2C2C2A;
+            --text-secondary: #6B6B66;
+            --text-muted: #999;
+            --accent: #B22222;
+            --accent-light: #C93756;
+            --accent-gold: #B89A68;
+            --jade: #7CB9B8;
+            --bamboo: #4A6741;
+            --serif-zh: 'Noto Serif SC', 'Songti SC', serif;
+            --serif-en: 'Cormorant Garamond', serif;
+            --sans-zh: 'Noto Sans SC', 'PingFang SC', sans-serif;
+            --sans-en: 'Inter', sans-serif;
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: #fff;
+            color: var(--text-primary);
+            font-family: var(--sans-zh), var(--sans-en);
+            line-height: 1.8;
+            font-weight: 300;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ===== Utility ===== */
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 60px; }
+        .section-padding { padding: 160px 0; }
+        .accent-line { width: 1px; height: 100px; background: var(--accent-gold); margin: 0 auto 40px; }
+        .text-center { text-align: center; }
+
+        .serif-zh { font-family: var(--serif-zh); }
+        .serif-en { font-family: var(--serif-en); }
+
+        /* ===== Reveal Animation ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .stagger-1 { transition-delay: 0.15s; }
+        .stagger-2 { transition-delay: 0.3s; }
+        .stagger-3 { transition-delay: 0.45s; }
+        .stagger-4 { transition-delay: 0.6s; }
+
+        /* ===== Language Toggle ===== */
+        [data-lang="en"] { display: none; }
+        body.lang-en [data-lang="zh"] { display: none; }
+        body.lang-en [data-lang="en"] { display: revert; }
+        [data-lang="en"].block { display: block; }
+        [data-lang="en"].inline { display: inline; }
+        [data-lang="en"].flex { display: flex; }
+        [data-lang="en"].inline-block { display: inline-block; }
+
+        /* ===== Navigation ===== */
+        nav {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        nav.scrolled {
+            padding: 16px 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .nav-brand {
+            font-family: var(--serif-en);
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            cursor: pointer;
+            font-weight: 300;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 48px;
+            align-items: center;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            opacity: 0.45;
+            transition: opacity 0.3s;
+            font-family: var(--sans-en);
+            font-weight: 400;
+        }
+        .nav-links li a:hover { opacity: 1; }
+
+        .lang-toggle {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(0,0,0,0.15);
+            padding: 6px 14px;
+            font-family: var(--sans-en);
+            background: none;
+            text-transform: uppercase;
+        }
+        .lang-toggle:hover { opacity: 1; }
+
+        /* ===== Hero ===== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-primary);
+        }
+        .hero-content {
+            width: 45%;
+            padding: 0 60px 0 100px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero-label {
+            font-family: var(--serif-en);
+            font-size: 12px;
+            letter-spacing: 0.6em;
+            color: var(--accent-gold);
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        .hero h1 {
+            font-family: var(--serif-zh);
+            font-size: clamp(48px, 6vw, 80px);
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            letter-spacing: 0.08em;
+        }
+        .hero h1 .sub {
+            font-family: var(--serif-en);
+            font-size: 0.45em;
+            opacity: 0.5;
+            letter-spacing: 0.15em;
+        }
+        .hero-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 30px 0 50px;
+            font-weight: 300;
+            line-height: 2;
+        }
+        .hero-image {
+            width: 60%;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: url('images/hero/gilded-cloud-hero.jpg') center/cover no-repeat;
+            clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+            transition: transform 8s ease;
+        }
+        .hero:hover .hero-image { transform: scale(1.05); }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 48px;
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            transition: all 0.4s;
+            font-family: var(--sans-en);
+            font-weight: 400;
+            align-self: flex-start;
+        }
+        .btn:hover {
+            background: var(--text-primary);
+            color: #fff;
+        }
+
+        /* ===== Philosophy ===== */
+        .philosophy {
+            padding: 200px 0;
+            text-align: center;
+        }
+        .philosophy-inner {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .philosophy h2 {
+            font-family: var(--serif-zh);
+            font-size: clamp(32px, 4vw, 52px);
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 0.1em;
+        }
+        .philosophy h2 .sub {
+            display: block;
+            font-family: var(--serif-en);
+            font-size: 0.4em;
+            color: var(--text-secondary);
+            letter-spacing: 0.3em;
+            margin-top: 8px;
+            font-weight: 300;
+        }
+        .philosophy p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 2.2;
+            font-weight: 300;
+        }
+
+        /* ===== Collection Chapters ===== */
+        .chapter-card {
+            margin-bottom: 200px;
+            display: flex;
+            align-items: center;
+            gap: 80px;
+        }
+        .chapter-card:nth-child(even) { flex-direction: row-reverse; }
+
+        .chapter-image {
+            flex: 1;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            position: relative;
+            cursor: pointer;
+        }
+        .chapter-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .chapter-card:hover .chapter-image img { transform: scale(1.04); }
+
+        .chapter-info { flex: 0.85; }
+        .chapter-num {
+            font-family: var(--serif-en);
+            font-size: 12px;
+            color: var(--accent-gold);
+            letter-spacing: 0.5em;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .chapter-info h3 {
+            font-family: var(--serif-zh);
+            font-size: clamp(28px, 3vw, 42px);
+            font-weight: 300;
+            margin-bottom: 8px;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
+        }
+        .chapter-info h3 .sub {
+            display: block;
+            font-family: var(--serif-en);
+            font-size: 0.5em;
+            color: var(--text-secondary);
+            letter-spacing: 0.15em;
+            margin-top: 4px;
+            font-weight: 300;
+        }
+        .chapter-quote {
+            font-family: var(--serif-zh);
+            font-size: 15px;
+            color: var(--accent);
+            margin: 24px 0;
+            font-style: italic;
+            letter-spacing: 0.04em;
+        }
+        .chapter-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 2;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .btn-link {
+            display: inline-block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-bottom: 1px solid var(--text-primary);
+            padding-bottom: 4px;
+            font-family: var(--sans-en);
+            transition: all 0.3s;
+        }
+        .btn-link:hover { color: var(--accent); border-color: var(--accent); }
+
+        /* ===== Product Detail Modal ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s;
+            overflow-y: auto;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            width: 100%;
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 60px;
+            background: #fff;
+            position: relative;
+        }
+        .modal-close {
+            position: fixed;
+            top: 30px;
+            right: 40px;
+            font-size: 28px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 2100;
+            background: none;
+            border: none;
+            font-family: var(--sans-en);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            transition: opacity 0.3s;
+        }
+        .modal-close:hover { opacity: 0.6; }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .modal-header h2 {
+            font-family: var(--serif-zh);
+            font-size: 36px;
+            font-weight: 300;
+        }
+        .modal-header .sub {
+            font-family: var(--serif-en);
+            font-size: 14px;
+            color: var(--text-secondary);
+            letter-spacing: 0.2em;
+            margin-top: 8px;
+        }
+
+        .modal-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .modal-gallery img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            cursor: zoom-in;
+            transition: var(--transition);
+        }
+        .modal-gallery img:hover { transform: scale(1.02); }
+
+        /* ===== Atelier ===== */
+        .atelier-section {
+            background: var(--bg-secondary);
+            padding: 180px 0;
+        }
+        .atelier-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .atelier-inner h2 {
+            font-family: var(--serif-zh);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 300;
+            margin-bottom: 8px;
+        }
+        .atelier-inner h2 .sub {
+            display: block;
+            font-family: var(--serif-en);
+            font-size: 0.38em;
+            color: var(--text-secondary);
+            letter-spacing: 0.3em;
+            margin-top: 6px;
+        }
+        .atelier-inner p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 2.2;
+            margin-top: 30px;
+        }
+        .atelier-img {
+            margin-top: 80px;
+            width: 100%;
+            max-height: 600px;
+            object-fit: cover;
+        }
+
+        .craft-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+            margin-top: 100px;
+        }
+        .craft-item { text-align: center; }
+        .craft-icon {
+            font-family: var(--serif-zh);
+            font-size: 36px;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+        }
+        .craft-item h4 {
+            font-family: var(--serif-zh);
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 6px;
+        }
+        .craft-item h4 .sub {
+            display: block;
+            font-family: var(--serif-en);
+            font-size: 0.75em;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            font-weight: 300;
+        }
+        .craft-item p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+
+        /* ===== Gallery ===== */
+        .gallery-section { padding: 160px 0; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 80px;
+        }
+        .gallery-item {
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            background: var(--bg-secondary);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            filter: grayscale(0.15);
+        }
+        .gallery-item:hover img { filter: grayscale(0); transform: scale(1.08); }
+
+        /* ===== Newsletter ===== */
+        .newsletter {
+            padding: 120px 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        .newsletter h3 {
+            font-family: var(--serif-zh);
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 8px;
+        }
+        .newsletter .sub {
+            font-family: var(--serif-en);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+        }
+        .newsletter-form {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .newsletter-form input {
+            padding: 16px 24px;
+            border: 1px solid #ddd;
+            font-size: 13px;
+            width: 300px;
+            font-family: var(--sans-en);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .newsletter-form input:focus { border-color: var(--accent-gold); }
+        .newsletter-form button {
+            padding: 16px 36px;
+            background: var(--text-primary);
+            color: #fff;
+            border: none;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-family: var(--sans-en);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .newsletter-form button:hover { background: var(--accent); }
+
+        /* ===== Footer ===== */
+        footer {
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+            background: var(--bg-primary);
+        }
+        .footer-logo {
+            font-family: var(--serif-en);
+            font-size: 20px;
+            letter-spacing: 0.5em;
+            margin-bottom: 20px;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 36px;
+            margin-bottom: 40px;
+        }
+        .footer-links a {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-family: var(--sans-en);
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright {
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 1024px) {
+            .container { padding: 0 40px; }
+            .hero-content { width: 50%; padding-left: 60px; }
+            .hero-image { clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%); }
+            .chapter-card { gap: 50px; }
+            .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            .section-padding { padding: 100px 0; }
+            nav { padding: 20px 0; }
+            .nav-links { gap: 24px; }
+            .nav-links li a { font-size: 9px; }
+            .hero { flex-direction: column; height: auto; min-height: 100vh; }
+            .hero-content { width: 100%; padding: 120px 24px 60px; }
+            .hero-image { position: relative; width: 100%; height: 60vh; clip-path: none; }
+            .chapter-card { flex-direction: column !important; gap: 30px; margin-bottom: 100px; }
+            .chapter-image { width: 100%; }
+            .craft-grid { grid-template-columns: 1fr; gap: 40px; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .newsletter-form { flex-direction: column; align-items: center; }
+            .newsletter-form input { width: 100%; max-width: 300px; }
+            .modal-content { padding: 24px; margin: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="main-nav">
+        <div class="container" style="display:flex;justify-content:space-between;width:100%;align-items:center;">
+            <div class="nav-brand">
+                <span data-lang="zh">韶光</span>
+                <span data-lang="en">AURORA</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#collection">
+                    <span data-lang="zh">选集</span>
+                    <span data-lang="en">Collection</span>
+                </a></li>
+                <li><a href="#atelier">
+                    <span data-lang="zh">匠心</span>
+                    <span data-lang="en">Atelier</span>
+                </a></li>
+                <li><a href="#gallery">
+                    <span data-lang="zh">瞬间</span>
+                    <span data-lang="en">Gallery</span>
+                </a></li>
+                <li><a href="#about">
+                    <span data-lang="zh">关于</span>
+                    <span data-lang="en">About</span>
+                </a></li>
+                <li><button class="lang-toggle" onclick="toggleLang()" id="langBtn">EN</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+        <div class="hero-content reveal stagger-1">
+            <span class="hero-label">
+                <span data-lang="zh">东方复兴</span>
+                <span data-lang="en">Oriental Revival</span>
+            </span>
+            <h1>
+                <span data-lang="zh">醉韶光</span>
+                <span data-lang="en">Zui Shao Guang</span>
+                <span class="sub">
+                    <span data-lang="zh">韶光 · AURORA 首发系列</span>
+                    <span data-lang="en">The Debut Collection</span>
+                </span>
+            </h1>
+            <p class="hero-desc">
+                <span data-lang="zh">东方极简主义下的浪漫复兴，在时间与工艺的交汇点，捕捉那一抹惊鸿之美。每一尊，皆是限量收藏级艺术品。</span>
+                <span data-lang="en">A romantic revival under Oriental minimalism — capturing breathtaking beauty at the intersection of time and craft. Each doll is a limited-edition collectible work of art.</span>
+            </p>
+            <a href="#collection" class="btn">
+                <span data-lang="zh">探索选集</span>
+                <span data-lang="en">Explore Collection</span>
+            </a>
+        </div>
+        <div class="hero-image"></div>
+    </section>
+
+    <!-- ===== Philosophy ===== -->
+    <section class="philosophy" id="about">
+        <div class="container philosophy-inner reveal">
+            <div class="accent-line"></div>
+            <h2>
+                <span data-lang="zh">以器载道</span>
+                <span data-lang="en">Crafted with Soul</span>
+                <span class="sub">
+                    <span data-lang="zh">东方美学的当代收藏</span>
+                    <span data-lang="en">Contemporary Oriental Aesthetics</span>
+                </span>
+            </h2>
+            <p>
+                <span data-lang="zh">韶光 AURORA，源于对东方美学的深沉敬意。我们相信，真正的美不在于繁复的装饰，而在于留白中的气韵、简约中的深意。每一尊人偶，都是对千年东方文明的一次当代诠释——以手工艺的温度，凝固时光中那一抹不可复制的惊鸿。</span>
+                <span data-lang="en">AURORA was born from a profound reverence for Oriental aesthetics. We believe true beauty lies not in ornate decoration, but in the spirit within emptiness, the depth within simplicity. Each doll is a contemporary interpretation of millennia of Eastern civilization — a breath of irreplicable beauty, frozen in time through the warmth of artisanal craft.</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- ===== Collection Chapters ===== -->
+    <section id="collection" class="section-padding container">
+        <div class="reveal text-center" style="margin-bottom:140px;">
+            <div class="accent-line"></div>
+            <h2 style="font-family:var(--serif-zh);font-size:clamp(32px,4vw,50px);font-weight:300;">
+                <span data-lang="zh">选集回顾</span>
+                <span data-lang="en">The Chapters</span>
+                <br>
+                <span style="font-size:14px;letter-spacing:0.5em;color:var(--text-muted);font-family:var(--serif-en);text-transform:uppercase;">
+                    <span data-lang="zh">醉韶光 · 首发系列</span>
+                    <span data-lang="en">Zui Shao Guang · Debut Series</span>
+                </span>
+            </h2>
+        </div>
+
+        <!-- Chapter 01: 金衣云裳 Gilded Cloud -->
+        <div class="chapter-card reveal" onclick="openModal('gilded-cloud')">
+            <div class="chapter-image">
+                <img src="images/products/gilded-cloud/03-full.jpg" alt="Gilded Cloud">
+            </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 01</span>
+                <h3>
+                    <span data-lang="zh">金衣云裳</span>
+                    <span data-lang="en">Gilded Cloud</span>
+                    <span class="sub">
+                        <span data-lang="zh">裁一段日光，洇入流金</span>
+                        <span data-lang="en">Cutting a ray of sunlight, bleeding into flowing gold</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"裁一段日光，洇入流金。"</span>
+                    <span data-lang="en">"A ray of sunlight, dissolved into liquid gold."</span>
+                </p>
+                <p>
+                    <span data-lang="zh">系列的首章，亦是关于"光"的初次探索。重磅真丝哑金面料，配合极致精细的苏绣工法，试图捕捉晚霞掠过宫檐的那一抹瞬时。它不只是玩偶的衣裳，而是一个关于权力和浪漫的古老梦境。凤凰金饰、珍珠垂坠、白狐绒领，每一处细节皆是权力与柔情的交织。</span>
+                    <span data-lang="en">The opening chapter — an exploration of "light." Heavyweight matte-gold silk, paired with supremely refined Suzhou embroidery, attempts to capture the fleeting moment when dusk sweeps across palace eaves. More than a doll's attire, it is an ancient dream of power and romance. Phoenix gold ornaments, pearl tassels, white fur collar — every detail weaves authority and tenderness.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 16 张 →</span>
+                    <span data-lang="en">View All 16 Images →</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Chapter 02: 墨韵帝华 Ink Emperor -->
+        <div class="chapter-card reveal" onclick="openModal('ink-emperor')">
+            <div class="chapter-image">
+                <img src="images/products/ink-emperor/03-full.jpg" alt="Ink Emperor">
+            </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 02</span>
+                <h3>
+                    <span data-lang="zh">墨韵帝华</span>
+                    <span data-lang="en">Ink Emperor</span>
+                    <span class="sub">
+                        <span data-lang="zh">心有赤子，静水深流</span>
+                        <span data-lang="en">A pure heart, deep waters running still</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"心有赤子，静水深流。"</span>
+                    <span data-lang="en">"With a pure heart, the deepest waters flow in silence."</span>
+                </p>
+                <p>
+                    <span data-lang="zh">红色在东方语境中从不只是色彩，而是厚重的生命力。此章聚焦于庄重与温婉的平衡，珠翠交辉间，黑红金三色构建出权力场域的无声叙事。珠帘半面，长辫垂背，手持团扇——一位不可侵犯的东方女皇，以静制动，以柔克刚。</span>
+                    <span data-lang="en">Red in the Oriental context is never merely a color — it is the weight of vitality. This chapter balances solemnity and grace, where black, red, and gold construct a silent narrative of power. Half-veiled face, a long braid down the back, a round fan in hand — an inviolable Eastern empress, mastering stillness over motion, softness over force.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 16 张 →</span>
+                    <span data-lang="en">View All 16 Images →</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Chapter 03: 竹韵清歌 Bamboo Song -->
+        <div class="chapter-card reveal" onclick="openModal('bamboo-song')">
+            <div class="chapter-image">
+                <img src="images/products/bamboo-song/03-full.jpg" alt="Bamboo Song">
+            </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 03</span>
+                <h3>
+                    <span data-lang="zh">竹韵清歌</span>
+                    <span data-lang="en">Bamboo Song</span>
+                    <span class="sub">
+                        <span data-lang="zh">虚心有节，清风自来</span>
+                        <span data-lang="en">Hollow yet resilient, the clear breeze comes unbidden</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"虚心有节，清风自来。"</span>
+                    <span data-lang="en">"Hollow in heart, firm in character — the clear wind arrives of its own accord."</span>
+                </p>
+                <p>
+                    <span data-lang="zh">竹，东方文人的精神图腾。此章以翠绿色为主调，金线绣竹叶点缀其间，黑狐绒肩饰增添华贵层次。绿色珠帘半遮面，仿若竹林深处的隐士，清逸脱俗，与世无争。金缕腰带垂落流苏，动静之间尽显东方文人的风骨与气节。</span>
+                    <span data-lang="en">Bamboo — the spiritual totem of Oriental literati. Dominated by emerald green, gold-embroidered bamboo leaves scattered throughout, with black fur shoulder accents adding layers of luxury. A green beaded veil half-covers the face, like a hermit deep in a bamboo grove — refined, detached, at peace. The gold-thread belt with flowing tassels reveals the character and integrity of Oriental scholars in every gesture.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 12 张 →</span>
+                    <span data-lang="en">View All 12 Images →</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Chapter 04: 红罗雅韵 Scarlet Verse -->
+        <div class="chapter-card reveal" onclick="openModal('scarlet-verse')">
+            <div class="chapter-image">
+                <img src="images/products/scarlet-verse/03-full.jpg" alt="Scarlet Verse">
+            </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 04</span>
+                <h3>
+                    <span data-lang="zh">红罗雅韵</span>
+                    <span data-lang="en">Scarlet Verse</span>
+                    <span class="sub">
+                        <span data-lang="zh">牡丹亭畔，惊梦一瞬</span>
+                        <span data-lang="en">Beside the Peony Pavilion, a moment of awakening</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"牡丹亭畔，惊梦一瞬。"</span>
+                    <span data-lang="en">"Beside the Peony Pavilion — a dream awakened in a single breath."</span>
+                </p>
+                <p>
+                    <span data-lang="zh">正红为底，牡丹为魂。立体高浮雕苏绣牡丹纹样在绸缎上绽放，蓝紫白三色丝线交织出盛唐气象。红石榴发饰与金蝶步摇呼应，白色广袖飘逸如云。这是关于"爱"与"梦"的章节——《牡丹亭》中杜丽娘的魂魄，跨越生死，只为那一眼惊鸿。</span>
+                    <span data-lang="en">True red as the foundation, peony as the soul. Three-dimensional Suzhou embroidery peonies bloom across silk, where blue, purple, and white threads conjure the grandeur of the Tang dynasty. Red pomegranate hair ornaments echo golden butterfly pins; white wide sleeves float like clouds. This is a chapter about "love" and "dream" — the spirit of Du Liniang from The Peony Pavilion, crossing life and death, for that single breathtaking glance.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 10 张 →</span>
+                    <span data-lang="en">View All 10 Images →</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Chapter 05: 幻羽流光 Ethereal Jade -->
+        <div class="chapter-card reveal" onclick="openModal('ethereal-jade')">
+            <div class="chapter-image">
+                <img src="images/products/ethereal-jade/01-hero.jpg" alt="Ethereal Jade">
+            </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 05</span>
+                <h3>
+                    <span data-lang="zh">幻羽流光</span>
+                    <span data-lang="en">Ethereal Jade</span>
+                    <span class="sub">
+                        <span data-lang="zh">雾失楼台，月逐流波</span>
+                        <span data-lang="en">Towers lost in mist, moonlight chasing the flowing waves</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"雾失楼台，月逐流波。"</span>
+                    <span data-lang="en">"Towers dissolve in mist, moonlight follows the rippling waves."</span>
+                </p>
+                <p>
+                    <span data-lang="zh">挑战透明度的极限。轻如蝉翼的特制绢纱，通过层叠覆盖营造出烟雨朦胧的意境。它是虚与实的边界，仿佛那尊灵动的人偶正处于从梦境迈入现实的刹那——轻盈、超脱、不可捉摸。珍珠白眼眸与银白发色，赋予她超越尘世的仙灵气质。</span>
+                    <span data-lang="en">Pushing the limits of translucency. Specially crafted silk gauze, lighter than a cicada's wing, layered to create the ethereal mood of misty rain. It is the boundary between the void and the real — as if this agile doll stands at the very moment of stepping from dream into reality. Light, transcendent, elusive. Pearl-white eyes and silver-white hair grant her a fairy-like quality beyond the mortal realm.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 2 张 →</span>
+                    <span data-lang="en">View All 2 Images →</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Chapter 06: 秋金 Autumn Gold -->
+        <div class="chapter-card reveal" onclick="openModal('autumn-gold')">
+            <div class="chapter-image">
+                <img src="images/products/autumn-gold/01-hero.jpg" alt="Autumn Gold">
+            </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 06</span>
+                <h3>
+                    <span data-lang="zh">秋金</span>
+                    <span data-lang="en">Autumn Gold</span>
+                    <span class="sub">
+                        <span data-lang="zh">云肩叠翠，蝶舞金秋</span>
+                        <span data-lang="en">Layered cloud collar, butterflies dancing in golden autumn</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"云肩叠翠，蝶舞金秋。"</span>
+                    <span data-lang="en">"Layered cloud shoulders, butterflies dancing in autumn gold."</span>
+                </p>
+                <p>
+                    <span data-lang="zh"> mustard 金色缎袍搭配紫色云肩（云肩），蝴蝶纹样居中，珍珠边框镶饰。高耸发髻上金色丝线与紫色花朵交映，珍珠簇拥间尽显宫廷贵气。此章是对"丰盛"的礼赞——秋收之金，华而不艳，雍容而内敛。</span>
+                    <span data-lang="en">A mustard-gold satin robe paired with a purple cloud collar (yunjian), butterfly motif at center, pearl-bordered. The towering bun adorned with gold filigree and purple flowers, pearl clusters exuding palace elegance. This chapter celebrates "abundance" — the gold of autumn harvest, magnificent yet restrained, opulent yet understated.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 6 张 →</span>
+                    <span data-lang="en">View All 6 Images →</span>
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Atelier ===== -->
+    <section id="atelier" class="atelier-section">
+        <div class="container atelier-inner reveal">
+            <h2>
+                <span data-lang="zh">匠心工坊</span>
+                <span data-lang="en">The Atelier</span>
+                <span class="sub">
+                    <span data-lang="zh">高定级别的纯手工制作</span>
+                    <span data-lang="en">Haute Couture Craftsmanship</span>
+                </span>
+            </h2>
+            <p>
+                <span data-lang="zh">每一尊玩偶都是一段被凝固的时光。从妆面的精雕细琢到每一寸丝绸的严苛挑选，我们追求的不仅是外在的华丽，更是内在的风骨。Aurora 坚持"高定级别"的纯手工制作，让每一个细节都经得起审美的挑剔。</span>
+                <span data-lang="en">Each doll is a凝固 of time — a moment suspended in resin and silk. From the meticulous carving of facial makeup to the rigorous selection of every inch of silk, we pursue not merely external splendor, but inner character. AURORA insists on haute couture-level handcraftsmanship, ensuring every detail withstands the most discerning aesthetic judgment.</span>
+            </p>
+        </div>
+        <div class="container">
+            <img class="atelier-img reveal" src="images/products/gilded-cloud/02-detail.jpg" alt="Craftsmanship Detail">
+        </div>
+        <div class="container" style="max-width:1000px;">
+            <div class="craft-grid">
+                <div class="craft-item reveal stagger-1">
+                    <div class="craft-icon">绣</div>
+                    <h4>
+                        <span data-lang="zh">苏绣</span>
+                        <span data-lang="en">Suzhou Embroidery</span>
+                        <span class="sub">
+                            <span data-lang="zh">非遗工艺</span>
+                            <span data-lang="en">Intangible Heritage Craft</span>
+                        </span>
+                    </h4>
+                    <p>
+                        <span data-lang="zh">每一片花瓣、每一只蝴蝶，皆由苏绣匠人以手工一针一线绣制。丝线细如发丝，色彩过渡自然如水墨。</span>
+                        <span data-lang="en">Every petal, every butterfly — hand-stitched by Suzhou embroidery masters. Silk threads finer than hair, color transitions as natural as ink wash painting.</span>
+                    </p>
+                </div>
+                <div class="craft-item reveal stagger-2">
+                    <div class="craft-icon">妆</div>
+                    <h4>
+                        <span data-lang="zh">手绘面妆</span>
+                        <span data-lang="en">Hand-Painted Face</span>
+                        <span class="sub">
+                            <span data-lang="zh">一笔一画皆灵魂</span>
+                            <span data-lang="en">Every Stroke Has Soul</span>
+                        </span>
+                    </h4>
+                    <p>
+                        <span data-lang="zh">面妆由专业妆面师手工绘制，渐变唇色、眼影晕染、眉形勾勒，每一尊皆有独特的面部表情与灵魂。</span>
+                        <span data-lang="en">Facial makeup hand-painted by professional artists — gradient lips, blended eyeshadow, defined brows. Each doll carries a unique expression and soul.</span>
+                    </p>
+                </div>
+                <div class="craft-item reveal stagger-3">
+                    <div class="craft-icon">饰</div>
+                    <h4>
+                        <span data-lang="zh">金工珠宝</span>
+                        <span data-lang="en">Goldsmith Jewelry</span>
+                        <span class="sub">
+                            <span data-lang="zh">微观世界的精致</span>
+                            <span data-lang="en">Refinement in Miniature</span>
+                        </span>
+                    </h4>
+                    <p>
+                        <span data-lang="zh">发簪、步摇、云肩、项链——每一件配饰皆按珠宝级别打造，珍珠、玉石、珊瑚、绿松石，镶嵌于金铜丝线之间。</span>
+                        <span data-lang="en">Hairpins, buyao, cloud collars, necklaces — each accessory crafted at jewelry level. Pearls, jade, coral, turquoise, set between gold and copper wire.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Gallery ===== -->
+    <section id="gallery" class="gallery-section container">
+        <div class="reveal text-center" style="margin-bottom:60px;">
+            <h2 style="font-family:var(--serif-zh);font-size:clamp(28px,3vw,36px);font-weight:300;">
+                <span data-lang="zh">瞬间与永恒</span>
+                <span data-lang="en">Captured Moments</span>
+            </h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item reveal stagger-1"><img src="images/gallery/IMG_3851.PNG" alt="Gallery"></div>
+            <div class="gallery-item reveal stagger-2"><img src="images/gallery/IMG_3839.jpg" alt="Gallery"></div>
+            <div class="gallery-item reveal stagger-3"><img src="images/gallery/IMG_3840.jpg" alt="Gallery"></div>
+            <div class="gallery-item reveal stagger-4"><img src="images/gallery/IMG_3841.jpg" alt="Gallery"></div>
+            <div class="gallery-item reveal stagger-1"><img src="images/gallery/IMG_3842.jpg" alt="Gallery"></div>
+            <div class="gallery-item reveal stagger-2"><img src="images/gallery/IMG_3843.jpg" alt="Gallery"></div>
+            <div class="gallery-item reveal stagger-3"><img src="images/gallery/IMG_3844.jpg" alt="Gallery"></div>
+            <div class="gallery-item reveal stagger-4"><img src="images/gallery/IMG_3845.jpg" alt="Gallery"></div>
+        </div>
+    </section>
+
+    <!-- ===== Newsletter ===== -->
+    <section class="newsletter reveal">
+        <div class="container">
+            <h3>
+                <span data-lang="zh">成为收藏家</span>
+                <span data-lang="en">Become a Collector</span>
+            </h3>
+            <p class="sub">
+                <span data-lang="zh">获取首发系列预售信息与独家收藏资格</span>
+                <span data-lang="en">Receive pre-sale info and exclusive collector access</span>
+            </p>
+            <form class="newsletter-form" onsubmit="event.preventDefault()">
+                <input type="email" placeholder="your@email.com">
+                <button type="submit">
+                    <span data-lang="zh">订阅</span>
+                    <span data-lang="en">Subscribe</span>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">AURORA</div>
+            <div class="footer-links">
+                <a href="#collection">Collection</a>
+                <a href="#atelier">Atelier</a>
+                <a href="#about">About</a>
+                <a href="#">Instagram</a>
+                <a href="#">Xiaohongshu</a>
+            </div>
+            <p class="copyright">
+                &copy; 2026 韶光 AURORA Studio. All rights reserved.
+                <br>
+                <span style="margin-top:8px;display:inline-block;opacity:0.5;">
+                    <span data-lang="zh">东方美学的当代收藏</span>
+                    <span data-lang="en">Contemporary Oriental Aesthetics</span>
+                </span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- ===== Product Detail Modal ===== -->
+    <div class="modal-overlay" id="modal">
+        <button class="modal-close" onclick="closeModal()">CLOSE ✕</button>
+        <div class="modal-content" id="modalContent">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+
+    <script>
+        // ===== Reveal on Scroll =====
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 120;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        window.addEventListener("load", reveal);
+
+        // ===== Navbar Scroll =====
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 80) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // ===== Language Toggle =====
+        function toggleLang() {
+            const body = document.body;
+            const btn = document.getElementById('langBtn');
+            if (body.classList.contains('lang-en')) {
+                body.classList.remove('lang-en');
+                btn.textContent = 'EN';
+                document.documentElement.lang = 'zh-CN';
+            } else {
+                body.classList.add('lang-en');
+                btn.textContent = '中文';
+                document.documentElement.lang = 'en';
+            }
+        }
+
+        // ===== Product Modal =====
+        const PRODUCTS = {
+            'gilded-cloud': {
+                nameZh: '金衣云裳',
+                nameEn: 'Gilded Cloud',
+                dir: 'gilded-cloud'
+            },
+            'ink-emperor': {
+                nameZh: '墨韵帝华',
+                nameEn: 'Ink Emperor',
+                dir: 'ink-emperor'
+            },
+            'bamboo-song': {
+                nameZh: '竹韵清歌',
+                nameEn: 'Bamboo Song',
+                dir: 'bamboo-song'
+            },
+            'scarlet-verse': {
+                nameZh: '红罗雅韵',
+                nameEn: 'Scarlet Verse',
+                dir: 'scarlet-verse'
+            },
+            'ethereal-jade': {
+                nameZh: '幻羽流光',
+                nameEn: 'Ethereal Jade',
+                dir: 'ethereal-jade'
+            },
+            'autumn-gold': {
+                nameZh: '秋金',
+                nameEn: 'Autumn Gold',
+                dir: 'autumn-gold'
+            }
+        };
+
+        function openModal(productId) {
+            const product = PRODUCTS[productId];
+            if (!product) return;
+
+            const modal = document.getElementById('modal');
+            const content = document.getElementById('modalContent');
+
+            // Build image gallery
+            let imagesHtml = '';
+            for (let i = 1; i <= 20; i++) {
+                const num = i.toString().padStart(2, '0');
+                imagesHtml += `<img src="images/products/${product.dir}/${num}-hero.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
+                imagesHtml += `<img src="images/products/${product.dir}/${num}-detail.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
+                imagesHtml += `<img src="images/products/${product.dir}/${num}-full.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
+                imagesHtml += `<img src="images/products/${product.dir}/${num}-angle.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
+                imagesHtml += `<img src="images/products/${product.dir}/${num}-angle2.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
+                imagesHtml += `<img src="images/products/${product.dir}/${num}-back.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
+                imagesHtml += `<img src="images/products/${product.dir}/${num}-pose.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
+                imagesHtml += `<img src="images/products/${product.dir}/${num}-close.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
+                imagesHtml += `<img src="images/products/${product.dir}/${num}-portrait.jpg" alt="${product.nameEn}" onerror="this.style.display='none'">`;
+            }
+
+            content.innerHTML = `
+                <div class="modal-header">
+                    <h2>${product.nameZh}<br><span class="sub">${product.nameEn}</span></h2>
+                </div>
+                <div class="modal-gallery">${imagesHtml}</div>
+            `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+
+</body>
+</html>
