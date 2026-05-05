@@ -2,7 +2,10 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>韶光 AURORA — 东方美学的当代收藏 | Contemporary Oriental Aesthetics</title>
     <meta name="description" content="AURORA Studio — 以当代工艺诠释东方美学，每一尊人偶皆为限量收藏级艺术品。Limited edition collectible dolls inspired by Oriental aesthetics and traditional craftsmanship.">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -581,6 +584,36 @@
             letter-spacing: 0.2em;
         }
 
+        /* ===== Mobile Menu Toggle ===== */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 22px;
+            height: 1px;
+            background: var(--text-primary);
+            margin: 6px 0;
+            transition: all 0.3s;
+        }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ===== Touch-friendly tap targets ===== */
+        @media (hover: none) and (pointer: coarse) {
+            .btn-link { padding: 8px 0; }
+            .chapter-card { cursor: default; }
+            .chapter-image:active { opacity: 0.85; }
+            .nav-links li a { padding: 8px 0; }
+            .modal-gallery img { min-height: 120px; }
+        }
+
         /* ===== Responsive ===== */
         @media (max-width: 1024px) {
             .container { padding: 0 40px; }
@@ -592,20 +625,107 @@
         @media (max-width: 768px) {
             .container { padding: 0 24px; }
             .section-padding { padding: 100px 0; }
-            nav { padding: 20px 0; }
-            .nav-links { gap: 24px; }
-            .nav-links li a { font-size: 9px; }
-            .hero { flex-direction: column; height: auto; min-height: 100vh; }
-            .hero-content { width: 100%; padding: 120px 24px 60px; }
-            .hero-image { position: relative; width: 100%; height: 60vh; clip-path: none; }
-            .chapter-card { flex-direction: column !important; gap: 30px; margin-bottom: 100px; }
+
+            /* Mobile hamburger menu */
+            .menu-toggle { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 260px;
+                height: 100vh;
+                background: rgba(255,255,255,0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                gap: 36px;
+                transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                border-left: 1px solid rgba(0,0,0,0.06);
+                padding: 0;
+                margin: 0;
+                z-index: 999;
+            }
+            .nav-links.open { right: 0; }
+            .nav-links li a {
+                font-size: 12px;
+                opacity: 0.7;
+            }
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.2);
+                z-index: 998;
+            }
+            .nav-overlay.active { display: block; }
+
+            .hero { min-height: 100svh; }
+            .hero-content { width: 100%; padding: 100px 24px 48px; }
+            .hero-image { position: relative; width: 100%; height: 55vh; clip-path: none; }
+            .hero h1 { font-size: 42px; }
+            .hero-desc { font-size: 14px; }
+
+            .chapter-card { flex-direction: column !important; gap: 24px; margin-bottom: 80px; }
             .chapter-image { width: 100%; }
+            .chapter-info h3 { font-size: 28px; }
+
+            .philosophy { padding: 120px 0; }
+
             .craft-grid { grid-template-columns: 1fr; gap: 40px; }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
             .newsletter-form { flex-direction: column; align-items: center; }
             .newsletter-form input { width: 100%; max-width: 300px; }
-            .modal-content { padding: 24px; margin: 20px; }
-            .modal-gallery { grid-template-columns: repeat(2, 1fr); }
+
+            .footer-links { flex-wrap: wrap; gap: 20px; }
+
+            .modal-content { padding: 20px 16px; margin: 12px; }
+            .modal-gallery { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .modal-header h2 { font-size: 24px; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .section-padding { padding: 80px 0; }
+
+            .hero-content { padding: 90px 16px 36px; }
+            .hero-image { height: 45vh; }
+            .hero h1 { font-size: 34px; }
+            .hero-label { font-size: 10px; letter-spacing: 0.4em; }
+            .hero-desc { font-size: 13px; line-height: 1.9; }
+            .btn { padding: 16px 36px; font-size: 9px; }
+
+            .philosophy { padding: 100px 0; }
+            .philosophy h2 { font-size: 28px; }
+            .accent-line { height: 60px; }
+
+            .chapter-card { margin-bottom: 60px; }
+            .chapter-info h3 { font-size: 24px; }
+            .chapter-num { font-size: 10px; }
+            .chapter-quote { font-size: 13px; margin: 16px 0; }
+            .chapter-info p { font-size: 13px; }
+
+            .atelier-inner h2 { font-size: 28px; }
+            .atelier-inner p { font-size: 13px; }
+
+            .craft-item { text-align: center; padding: 20px 0; }
+            .craft-icon { font-size: 28px; }
+            .craft-item h4 { font-size: 16px; }
+            .craft-item p { font-size: 12px; }
+
+            .gallery-grid { gap: 8px; }
+
+            .newsletter h3 { font-size: 22px; }
+            .newsletter .sub { font-size: 10px; }
+            .newsletter-form input { padding: 14px 18px; }
+            .newsletter-form button { padding: 14px 30px; }
+
+            .footer-logo { font-size: 16px; letter-spacing: 0.3em; }
+            .footer-links a { font-size: 10px; }
+            .copyright { font-size: 9px; }
+
+            .modal-content { padding: 16px 12px; margin: 8px; }
+            .modal-gallery { grid-template-columns: 1fr; gap: 6px; }
+            .modal-close { top: 16px; right: 16px; font-size: 24px; }
         }
     </style>
 </head>
@@ -618,20 +738,23 @@
                 <span data-lang="zh">韶光</span>
                 <span data-lang="en">AURORA</span>
             </div>
-            <ul class="nav-links">
-                <li><a href="#collection">
+            <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#collection" onclick="closeMenu()">
                     <span data-lang="zh">选集</span>
                     <span data-lang="en">Collection</span>
                 </a></li>
-                <li><a href="#atelier">
+                <li><a href="#atelier" onclick="closeMenu()">
                     <span data-lang="zh">匠心</span>
                     <span data-lang="en">Atelier</span>
                 </a></li>
-                <li><a href="#gallery">
+                <li><a href="#gallery" onclick="closeMenu()">
                     <span data-lang="zh">瞬间</span>
                     <span data-lang="en">Gallery</span>
                 </a></li>
-                <li><a href="#about">
+                <li><a href="#about" onclick="closeMenu()">
                     <span data-lang="zh">关于</span>
                     <span data-lang="en">About</span>
                 </a></li>
@@ -639,6 +762,7 @@
             </ul>
         </div>
     </nav>
+    <div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
 
     <!-- ===== Hero ===== -->
     <section class="hero">
@@ -1065,6 +1189,18 @@
                 btn.textContent = '中文';
                 document.documentElement.lang = 'en';
             }
+        }
+
+        // ===== Mobile Menu =====
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+            document.getElementById('menuToggle').classList.toggle('active');
+            document.getElementById('navOverlay').classList.toggle('active');
+        }
+        function closeMenu() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('menuToggle').classList.remove('active');
+            document.getElementById('navOverlay').classList.remove('active');
         }
 
         // ===== Product Modal =====
