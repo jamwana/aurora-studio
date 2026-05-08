@@ -36,6 +36,7 @@
             --sans-zh: 'Noto Sans SC', 'PingFang SC', sans-serif;
             --sans-en: 'Inter', sans-serif;
             --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -80,6 +81,34 @@
             background-size: 256px 256px;
         }
 
+        /* ===== Eyebrow Badge ===== */
+        .eyebrow {
+            display: inline-block;
+            padding: 5px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(184, 154, 104, 0.3);
+            font-family: var(--sans-en);
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* ===== Double-Bezel Card (Nested Architecture) ===== */
+        .bezel-card {
+            background: rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.04);
+            padding: 6px;
+            border-radius: 20px;
+        }
+        .bezel-card-inner {
+            background: #fff;
+            border-radius: calc(20px - 6px);
+            overflow: hidden;
+        }
+
         /* ===== Utility ===== */
         .container { max-width: 1400px; margin: 0 auto; padding: 0 60px; }
         .section-padding { padding: 160px 0; }
@@ -89,13 +118,16 @@
         .serif-zh { font-family: var(--serif-zh); }
         .serif-en { font-family: var(--serif-en); }
 
-        /* ===== Reveal Animation ===== */
+        /* ===== Reveal Animation (Scroll Entry) ===== */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: var(--transition);
+            transform: translateY(64px);
+            filter: blur(6px);
+            transition: opacity 0.9s var(--ease-spring),
+                        transform 0.9s var(--ease-spring),
+                        filter 0.9s var(--ease-spring);
         }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
         .stagger-1 { transition-delay: 0.15s; }
         .stagger-2 { transition-delay: 0.3s; }
         .stagger-3 { transition-delay: 0.45s; }
@@ -243,6 +275,59 @@
         }
         .hero:hover .hero-image { transform: scale(1.05); }
 
+        /* ===== CTA Button (Magnetic Physics) ===== */
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 44px;
+            border: none;
+            background: var(--text-primary);
+            color: #fff;
+            text-decoration: none;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            border-radius: 999px;
+            font-family: var(--sans-en);
+            font-weight: 400;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.6s var(--ease-spring),
+                        background 0.4s var(--ease-spring),
+                        box-shadow 0.6s var(--ease-spring);
+            align-self: flex-start;
+        }
+        .btn-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-light) 100%);
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-spring);
+            border-radius: inherit;
+        }
+        .btn-cta:hover { transform: scale(1.03); box-shadow: 0 12px 40px rgba(184, 154, 104, 0.25); }
+        .btn-cta:hover::before { opacity: 1; }
+        .btn-cta:active { transform: scale(0.97); }
+        .btn-cta span { position: relative; z-index: 1; }
+        .btn-cta .btn-arrow {
+            position: relative;
+            z-index: 1;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s var(--ease-spring),
+                        background 0.3s;
+            font-size: 14px;
+        }
+        .btn-cta:hover .btn-arrow { transform: translateX(3px) translateY(-1px) scale(1.1); }
+
         .btn {
             display: inline-block;
             padding: 18px 48px;
@@ -252,17 +337,20 @@
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.35em;
-            transition: all 0.4s;
+            transition: all 0.5s var(--ease-spring);
             font-family: var(--sans-en);
             font-weight: 400;
             align-self: flex-start;
+            position: relative;
+            overflow: hidden;
         }
         .btn:hover {
             background: var(--text-primary);
             color: #fff;
+            transform: scale(1.02);
         }
         .btn:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
             opacity: 0.85;
         }
 
@@ -306,8 +394,19 @@
         .chapter-card {
             margin-bottom: 200px;
             display: flex;
-            align-items: center;
+            align-items: stretch;
             gap: 80px;
+            background: rgba(0,0,0,0.015);
+            border: 1px solid rgba(0,0,0,0.035);
+            padding: 6px;
+            border-radius: 22px;
+            cursor: pointer;
+            transition: background 0.6s var(--ease-spring),
+                        box-shadow 0.6s var(--ease-spring);
+        }
+        .chapter-card:hover {
+            background: rgba(0,0,0,0.03);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.06);
         }
         .chapter-card:nth-child(even) { flex-direction: row-reverse; }
 
@@ -317,17 +416,18 @@
             overflow: hidden;
             background: var(--bg-secondary);
             position: relative;
-            cursor: pointer;
+            border-radius: calc(22px - 6px);
         }
         .chapter-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition);
+            transition: transform 1.2s var(--ease-spring);
         }
         .chapter-card:hover .chapter-image img { transform: scale(1.04); }
 
-        .chapter-info { flex: 0.85; }
+        .chapter-info { flex: 0.85; padding: 48px 20px 48px 0; align-self: center; }
+        .chapter-card:nth-child(even) .chapter-info { padding: 48px 0 48px 20px; }
         .chapter-num {
             font-family: var(--serif-en);
             font-size: 12px;
@@ -555,15 +655,15 @@
             aspect-ratio: 1/1;
             overflow: hidden;
             background: var(--bg-secondary);
+            border-radius: 14px;
         }
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: var(--transition);
-            filter: grayscale(0.15);
         }
-        .gallery-item:hover img { filter: grayscale(0); transform: scale(1.08); }
+        .gallery-item:hover img { transform: scale(1.08); }
 
         /* ===== Newsletter ===== */
         .newsletter {
@@ -857,9 +957,12 @@
                 <span data-lang="zh">东方极简主义下的浪漫复兴，在时间与工艺的交汇点，捕捉那一抹惊鸿之美。每一尊，皆是限量收藏级艺术品。</span>
                 <span data-lang="en">A romantic revival under Oriental minimalism — capturing breathtaking beauty at the intersection of time and craft. Each doll is a limited-edition collectible work of art.</span>
             </p>
-            <a href="#collection" class="btn">
-                <span data-lang="zh">探索选集</span>
-                <span data-lang="en">Explore Collection</span>
+            <a href="#collection" class="btn-cta">
+                <span>
+                    <span data-lang="zh">探索选集</span>
+                    <span data-lang="en">Explore Collection</span>
+                </span>
+                <span class="btn-arrow">↗</span>
             </a>
         </div>
         <div class="hero-image"></div>
@@ -868,6 +971,10 @@
     <!-- ===== Philosophy ===== -->
     <section class="philosophy" id="about">
         <div class="container philosophy-inner reveal">
+            <span class="eyebrow">
+                <span data-lang="zh">东方美学</span>
+                <span data-lang="en">Oriental Aesthetics</span>
+            </span>
             <h2>
                 <span data-lang="zh">以器载道</span>
                 <span data-lang="en">Crafted with Soul</span>
@@ -886,6 +993,10 @@
     <!-- ===== Collection Chapters ===== -->
     <section id="collection" class="section-padding container">
         <div class="reveal text-center" style="margin-bottom:140px;">
+            <span class="eyebrow">
+                <span data-lang="zh">首发系列</span>
+                <span data-lang="en">The Collection</span>
+            </span>
             <h2 style="font-family:var(--serif-zh);font-size:clamp(32px,4vw,50px);font-weight:300;">
                 <span data-lang="zh">选集回顾</span>
                 <span data-lang="en">The Chapters</span>
@@ -1081,6 +1192,10 @@
     <!-- ===== Atelier ===== -->
     <section id="atelier" class="atelier-section">
         <div class="container atelier-inner reveal">
+            <span class="eyebrow">
+                <span data-lang="zh">高定工艺</span>
+                <span data-lang="en">Haute Couture Craft</span>
+            </span>
             <h2>
                 <span data-lang="zh">匠心工坊</span>
                 <span data-lang="en">The Atelier</span>
@@ -1099,50 +1214,56 @@
         </div>
         <div class="container" style="max-width:1000px;">
             <div class="craft-grid">
-                <div class="craft-item reveal stagger-1">
-                    <div class="craft-icon">绣</div>
-                    <h4>
-                        <span data-lang="zh">苏绣</span>
-                        <span data-lang="en">Suzhou Embroidery</span>
-                        <span class="sub">
-                            <span data-lang="zh">非遗工艺</span>
-                            <span data-lang="en">Intangible Heritage Craft</span>
-                        </span>
-                    </h4>
-                    <p>
-                        <span data-lang="zh">每一片花瓣、每一只蝴蝶，皆由苏绣匠人以手工一针一线绣制。丝线细如发丝，色彩过渡自然如水墨。</span>
-                        <span data-lang="en">Every petal, every butterfly — hand-stitched by Suzhou embroidery masters. Silk threads finer than hair, color transitions as natural as ink wash painting.</span>
-                    </p>
+                <div class="craft-item bezel-card reveal stagger-1">
+                    <div class="bezel-card-inner" style="padding:40px 24px;">
+                        <div class="craft-icon">绣</div>
+                        <h4>
+                            <span data-lang="zh">苏绣</span>
+                            <span data-lang="en">Suzhou Embroidery</span>
+                            <span class="sub">
+                                <span data-lang="zh">非遗工艺</span>
+                                <span data-lang="en">Intangible Heritage Craft</span>
+                            </span>
+                        </h4>
+                        <p>
+                            <span data-lang="zh">每一片花瓣、每一只蝴蝶，皆由苏绣匠人以手工一针一线绣制。丝线细如发丝，色彩过渡自然如水墨。</span>
+                            <span data-lang="en">Every petal, every butterfly — hand-stitched by Suzhou embroidery masters. Silk threads finer than hair, color transitions as natural as ink wash painting.</span>
+                        </p>
+                    </div>
                 </div>
-                <div class="craft-item reveal stagger-2">
-                    <div class="craft-icon">妆</div>
-                    <h4>
-                        <span data-lang="zh">手绘面妆</span>
-                        <span data-lang="en">Hand-Painted Face</span>
-                        <span class="sub">
-                            <span data-lang="zh">一笔一画皆灵魂</span>
-                            <span data-lang="en">Every Stroke Has Soul</span>
-                        </span>
-                    </h4>
-                    <p>
-                        <span data-lang="zh">面妆由专业妆面师手工绘制，渐变唇色、眼影晕染、眉形勾勒，每一尊皆有独特的面部表情与灵魂。</span>
-                        <span data-lang="en">Facial makeup hand-painted by professional artists — gradient lips, blended eyeshadow, defined brows. Each doll carries a unique expression and soul.</span>
-                    </p>
+                <div class="craft-item bezel-card reveal stagger-2">
+                    <div class="bezel-card-inner" style="padding:40px 24px;">
+                        <div class="craft-icon">妆</div>
+                        <h4>
+                            <span data-lang="zh">手绘面妆</span>
+                            <span data-lang="en">Hand-Painted Face</span>
+                            <span class="sub">
+                                <span data-lang="zh">一笔一画皆灵魂</span>
+                                <span data-lang="en">Every Stroke Has Soul</span>
+                            </span>
+                        </h4>
+                        <p>
+                            <span data-lang="zh">面妆由专业妆面师手工绘制，渐变唇色、眼影晕染、眉形勾勒，每一尊皆有独特的面部表情与灵魂。</span>
+                            <span data-lang="en">Facial makeup hand-painted by professional artists — gradient lips, blended eyeshadow, defined brows. Each doll carries a unique expression and soul.</span>
+                        </p>
+                    </div>
                 </div>
-                <div class="craft-item reveal stagger-3">
-                    <div class="craft-icon">饰</div>
-                    <h4>
-                        <span data-lang="zh">金工珠宝</span>
-                        <span data-lang="en">Goldsmith Jewelry</span>
-                        <span class="sub">
-                            <span data-lang="zh">微观世界的精致</span>
-                            <span data-lang="en">Refinement in Miniature</span>
-                        </span>
-                    </h4>
-                    <p>
-                        <span data-lang="zh">发簪、步摇、云肩、项链——每一件配饰皆按珠宝级别打造，珍珠、玉石、珊瑚、绿松石，镶嵌于金铜丝线之间。</span>
-                        <span data-lang="en">Hairpins, buyao, cloud collars, necklaces — each accessory crafted at jewelry level. Pearls, jade, coral, turquoise, set between gold and copper wire.</span>
-                    </p>
+                <div class="craft-item bezel-card reveal stagger-3">
+                    <div class="bezel-card-inner" style="padding:40px 24px;">
+                        <div class="craft-icon">饰</div>
+                        <h4>
+                            <span data-lang="zh">金工珠宝</span>
+                            <span data-lang="en">Goldsmith Jewelry</span>
+                            <span class="sub">
+                                <span data-lang="zh">微观世界的精致</span>
+                                <span data-lang="en">Refinement in Miniature</span>
+                            </span>
+                        </h4>
+                        <p>
+                            <span data-lang="zh">发簪、步摇、云肩、项链——每一件配饰皆按珠宝级别打造，珍珠、玉石、珊瑚、绿松石，镶嵌于金铜丝线之间。</span>
+                            <span data-lang="en">Hairpins, buyao, cloud collars, necklaces — each accessory crafted at jewelry level. Pearls, jade, coral, turquoise, set between gold and copper wire.</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1151,26 +1272,34 @@
     <!-- ===== Gallery ===== -->
     <section id="gallery" class="gallery-section container">
         <div class="reveal text-center" style="margin-bottom:60px;">
+            <span class="eyebrow">
+                <span data-lang="zh">瞬间与永恒</span>
+                <span data-lang="en">Gallery</span>
+            </span>
             <h2 style="font-family:var(--serif-zh);font-size:clamp(28px,3vw,36px);font-weight:300;">
                 <span data-lang="zh">瞬间与永恒</span>
                 <span data-lang="en">Captured Moments</span>
             </h2>
         </div>
         <div class="gallery-grid">
-            <div class="gallery-item reveal stagger-1"><img src="images/gallery/IMG_3851.jpg" alt="Gallery"></div>
-            <div class="gallery-item reveal stagger-2"><img src="images/gallery/IMG_3839.jpg" alt="Gallery"></div>
-            <div class="gallery-item reveal stagger-3"><img src="images/gallery/IMG_3840.jpg" alt="Gallery"></div>
-            <div class="gallery-item reveal stagger-4"><img src="images/gallery/IMG_3841.jpg" alt="Gallery"></div>
-            <div class="gallery-item reveal stagger-1"><img src="images/gallery/IMG_3842.jpg" alt="Gallery"></div>
-            <div class="gallery-item reveal stagger-2"><img src="images/gallery/IMG_3843.jpg" alt="Gallery"></div>
-            <div class="gallery-item reveal stagger-3"><img src="images/gallery/IMG_3844.jpg" alt="Gallery"></div>
-            <div class="gallery-item reveal stagger-4"><img src="images/gallery/IMG_3845.jpg" alt="Gallery"></div>
+            <div class="gallery-item bezel-card reveal stagger-1"><div class="bezel-card-inner"><img src="images/gallery/IMG_3851.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-2"><div class="bezel-card-inner"><img src="images/gallery/IMG_3839.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-3"><div class="bezel-card-inner"><img src="images/gallery/IMG_3840.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-4"><div class="bezel-card-inner"><img src="images/gallery/IMG_3841.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-1"><div class="bezel-card-inner"><img src="images/gallery/IMG_3842.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-2"><div class="bezel-card-inner"><img src="images/gallery/IMG_3843.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-3"><div class="bezel-card-inner"><img src="images/gallery/IMG_3844.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-4"><div class="bezel-card-inner"><img src="images/gallery/IMG_3845.jpg" alt="Gallery"></div></div>
         </div>
     </section>
 
     <!-- ===== Newsletter ===== -->
     <section class="newsletter reveal">
         <div class="container">
+            <span class="eyebrow">
+                <span data-lang="zh">加入收藏</span>
+                <span data-lang="en">Join the List</span>
+            </span>
             <h3>
                 <span data-lang="zh">成为收藏家</span>
                 <span data-lang="en">Become a Collector</span>
