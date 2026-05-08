@@ -16,79 +16,122 @@
     <meta property="og:locale" content="zh_CN">
     <meta property="og:locale:alternate" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;900&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* ===== Design Tokens: Swiss × Eastern Terminal ===== */
+        /* ===== Design Tokens ===== */
         :root {
-            --bg: #F4F4F0;
-            --bg-secondary: #ECECE8;
-            --bg-dark: #050505;
-            --text: #0A0A0A;
-            --text-secondary: #5A5A58;
-            --text-muted: #8A8A88;
-            --accent: #E61919;
+            --bg-primary: #FAFAF8;
+            --bg-secondary: #F2F0EB;
+            --bg-dark: #1A1A18;
+            --text-primary: #2C2C2A;
+            --text-secondary: #6B6B66;
+            --text-muted: #999;
+            --accent: #B22222;
+            --accent-light: #C93756;
             --accent-gold: #B89A68;
-            --grid-line: rgba(0,0,0,0.08);
-            --sans: 'Inter', 'Noto Sans SC', sans-serif;
-            --mono: 'JetBrains Mono', monospace;
-            --border: 1px solid rgba(0,0,0,0.12);
-            --transition: all 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+            --jade: #7CB9B8;
+            --bamboo: #4A6741;
+            --serif-zh: 'Noto Serif SC', 'Songti SC', serif;
+            --serif-en: 'Cormorant Garamond', serif;
+            --sans-zh: 'Noto Sans SC', 'PingFang SC', sans-serif;
+            --sans-en: 'Inter', sans-serif;
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
 
         body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: var(--sans);
-            font-weight: 400;
-            line-height: 1.6;
-            overflow-x: hidden;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--sans-zh), var(--sans-en);
+            line-height: 1.8;
+            font-weight: 300;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            text-wrap: pretty;
         }
 
-        /* ===== Grid Lines ===== */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            pointer-events: none;
+        /* ===== Skip to Content ===== */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            padding: 12px 24px;
+            background: var(--bg-dark);
+            color: #fff;
+            font-size: 12px;
+            letter-spacing: 0.15em;
             z-index: 9999;
-            background-image:
-                repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px calc(100vw / 12)),
-                repeating-linear-gradient(0deg, var(--grid-line) 0 1px, transparent 1px 120px);
-            opacity: 0.4;
+            transition: top 0.2s;
         }
+        .skip-link:focus { top: 0; }
 
-        /* ===== Noise Overlay ===== */
+        /* ===== Grain Overlay ===== */
         body::after {
             content: '';
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             pointer-events: none;
             z-index: 9998;
-            opacity: 0.025;
+            opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
             background-size: 256px 256px;
         }
 
-        /* ===== Skip Link ===== */
-        .skip-link {
-            position: absolute;
-            top: -100px;
-            left: 0;
-            padding: 12px 24px;
-            background: var(--accent);
-            color: #fff;
-            font-size: 11px;
-            letter-spacing: 0.2em;
+        /* ===== Eyebrow Badge ===== */
+        .eyebrow {
+            display: inline-block;
+            padding: 5px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(184, 154, 104, 0.3);
+            font-family: var(--sans-en);
+            font-size: 9px;
             text-transform: uppercase;
-            font-family: var(--mono);
-            z-index: 99999;
-            transition: top 0.2s;
+            letter-spacing: 0.25em;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            font-weight: 500;
         }
-        .skip-link:focus { top: 0; }
+
+        /* ===== Double-Bezel Card (Nested Architecture) ===== */
+        .bezel-card {
+            background: rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.04);
+            padding: 6px;
+            border-radius: 20px;
+        }
+        .bezel-card-inner {
+            background: #fff;
+            border-radius: calc(20px - 6px);
+            overflow: hidden;
+        }
+
+        /* ===== Utility ===== */
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 60px; }
+        .section-padding { padding: 160px 0; }
+        .accent-line { width: 1px; height: 100px; background: var(--accent-gold); margin: 0 auto 40px; }
+        .text-center { text-align: center; }
+
+        .serif-zh { font-family: var(--serif-zh); }
+        .serif-en { font-family: var(--serif-en); }
+
+        /* ===== Reveal Animation (Scroll Entry) ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(64px);
+            filter: blur(6px);
+            transition: opacity 0.9s var(--ease-spring),
+                        transform 0.9s var(--ease-spring),
+                        filter 0.9s var(--ease-spring);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .stagger-1 { transition-delay: 0.15s; }
+        .stagger-2 { transition-delay: 0.3s; }
+        .stagger-3 { transition-delay: 0.45s; }
+        .stagger-4 { transition-delay: 0.6s; }
 
         /* ===== Language Toggle ===== */
         [data-lang="en"] { display: none; }
@@ -97,650 +140,407 @@
         [data-lang="en"].block { display: block; }
         [data-lang="en"].inline { display: inline; }
         [data-lang="en"].flex { display: flex; }
-
-        /* ===== Utility ===== */
-        .container { max-width: 100%; margin: 0 auto; padding: 0 0 0 0; }
-        .mono { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; color: var(--text-secondary); text-transform: uppercase; }
-        .brutalist-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); }
-        .accent-red { color: var(--accent); }
-        .border-top { border-top: var(--border); }
-        .border-bottom { border-bottom: var(--border); }
-
-        /* ===== Focus ===== */
-        :focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-        }
+        [data-lang="en"].inline-block { display: inline-block; }
 
         /* ===== Navigation ===== */
         nav {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: fixed;
-            top: 0; left: 0; right: 0;
+            width: 100%;
+            top: 0;
             z-index: 1000;
-            padding: 0;
-            border-bottom: var(--border);
-            background: var(--bg);
+            transition: var(--transition);
         }
-        .nav-grid {
-            display: grid;
-            grid-template-columns: 200px 1fr auto;
-            min-height: 60px;
+        nav.scrolled {
+            padding: 16px 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
         }
         .nav-brand {
-            display: flex;
-            align-items: center;
-            padding: 0 32px;
-            border-right: var(--border);
-            font-family: var(--mono);
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.3em;
+            font-family: var(--serif-en);
+            font-size: 22px;
             text-transform: uppercase;
-            background: var(--bg-dark);
-            color: #fff;
-            min-height: 60px;
+            letter-spacing: 0.4em;
+            cursor: pointer;
+            font-weight: 300;
         }
         .nav-links {
             display: flex;
             list-style: none;
+            gap: 48px;
             align-items: center;
-            padding: 0 32px;
-            gap: 0;
         }
-        .nav-links li { border-right: var(--border); }
-        .nav-links li:last-child { border-right: none; }
         .nav-links li a {
-            display: flex;
-            align-items: center;
-            height: 60px;
-            padding: 0 28px;
             text-decoration: none;
-            color: var(--text);
-            font-family: var(--mono);
+            color: var(--text-primary);
             font-size: 10px;
-            letter-spacing: 0.25em;
             text-transform: uppercase;
+            letter-spacing: 0.25em;
+            opacity: 0.45;
+            transition: opacity 0.3s;
+            font-family: var(--sans-en);
             font-weight: 400;
-            transition: var(--transition);
         }
-        .nav-links li a:hover {
-            background: var(--accent);
-            color: #fff;
-        }
-        .nav-links li a.active {
-            background: var(--text);
-            color: #fff;
-        }
+        .nav-links li a:hover { opacity: 1; }
+
         .lang-toggle {
-            height: 60px;
-            padding: 0 28px;
-            font-family: var(--mono);
             font-size: 10px;
-            letter-spacing: 0.25em;
+            letter-spacing: 0.2em;
             cursor: pointer;
-            border: none;
-            background: transparent;
-            text-transform: uppercase;
-            transition: var(--transition);
-        }
-        .lang-toggle:hover { background: var(--accent); color: #fff; }
-
-        /* Mobile menu */
-        .menu-toggle {
-            display: none;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(0,0,0,0.15);
+            padding: 6px 14px;
+            font-family: var(--sans-en);
             background: none;
-            border: none;
-            cursor: pointer;
-            padding: 16px;
-            z-index: 1001;
+            text-transform: uppercase;
         }
-        .menu-toggle span {
-            display: block;
-            width: 20px;
-            height: 1px;
-            background: #fff;
-            margin: 4px 0;
-            transition: all 0.3s;
-        }
-        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(3px, 3px); }
-        .menu-toggle.active span:nth-child(2) { opacity: 0; }
-        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(3px, -3px); }
+        .lang-toggle:hover { opacity: 1; }
 
-        .nav-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 998;
+        /* ===== Focus Rings (Accessibility) ===== */
+        :focus-visible {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 3px;
         }
-        .nav-overlay.active { display: block; }
+        a:focus-visible {
+            outline-offset: 5px;
+        }
+        button:focus-visible {
+            outline-offset: 3px;
+        }
+
+        /* ===== Active Navigation State ===== */
+        .nav-links li a.active { opacity: 1; border-bottom: 1px solid var(--accent-gold); }
 
         /* ===== Hero ===== */
         .hero {
             min-height: 100dvh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            border-bottom: var(--border);
-            margin-top: 60px;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            background: var(--bg-primary);
         }
-        .hero-text {
-            padding: 80px 60px;
+        .hero-content {
+            width: 45%;
+            padding: 0 60px 0 100px;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            border-right: var(--border);
-            position: relative;
         }
-        .hero-text::after {
-            content: 'AURORA';
-            position: absolute;
-            bottom: 40px;
-            right: 40px;
-            font-family: var(--mono);
-            font-size: 10px;
-            letter-spacing: 0.3em;
-            color: var(--text-muted);
-        }
-        .hero-id {
-            font-family: var(--mono);
-            font-size: 9px;
-            letter-spacing: 0.35em;
+        .hero-label {
+            font-family: var(--serif-en);
+            font-size: 12px;
+            letter-spacing: 0.6em;
+            color: var(--accent-gold);
+            margin-bottom: 30px;
             text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
         }
-        .hero-id::before { content: '//'; color: var(--text-muted); }
         .hero h1 {
-            font-family: var(--sans);
-            font-size: clamp(48px, 8vw, 120px);
-            font-weight: 900;
-            line-height: 0.95;
-            letter-spacing: -0.03em;
-            margin-bottom: 40px;
-            text-transform: uppercase;
+            font-family: var(--serif-zh);
+            font-size: clamp(48px, 6vw, 80px);
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            letter-spacing: 0.08em;
         }
         .hero h1 .sub {
-            display: block;
-            font-size: 0.25em;
-            font-weight: 400;
-            font-family: var(--mono);
-            letter-spacing: 0.2em;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            margin-top: 16px;
-        }
-        .hero-specs {
-            font-family: var(--mono);
-            font-size: 10px;
+            font-family: var(--serif-en);
+            font-size: 0.45em;
+            opacity: 0.5;
             letter-spacing: 0.15em;
-            color: var(--text-muted);
-            margin-bottom: 50px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding-top: 30px;
-            border-top: var(--border);
         }
-        .hero-specs span { display: block; }
-        .hero-specs em {
-            display: block;
-            font-style: normal;
-            color: var(--text);
-            font-size: 12px;
-            margin-top: 4px;
+        .hero-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 30px 0 50px;
+            font-weight: 300;
+            line-height: 2;
+            text-wrap: balance;
         }
-        .hero-cta {
+        .hero-image {
+            width: 60%;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: url('images/hero/gilded-cloud-hero.jpg') center/cover no-repeat;
+            clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+            transition: transform 8s ease;
+        }
+        .hero:hover .hero-image { transform: scale(1.05); }
+
+        /* ===== CTA Button (Magnetic Physics) ===== */
+        .btn-cta {
             display: inline-flex;
             align-items: center;
-            gap: 16px;
-            padding: 20px 40px;
-            background: var(--text);
+            gap: 12px;
+            padding: 20px 44px;
+            border: none;
+            background: var(--text-primary);
             color: #fff;
             text-decoration: none;
-            font-family: var(--mono);
             font-size: 10px;
-            letter-spacing: 0.3em;
             text-transform: uppercase;
-            font-weight: 500;
-            transition: var(--transition);
+            letter-spacing: 0.3em;
+            border-radius: 999px;
+            font-family: var(--sans-en);
+            font-weight: 400;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.6s var(--ease-spring),
+                        background 0.4s var(--ease-spring),
+                        box-shadow 0.6s var(--ease-spring);
             align-self: flex-start;
         }
-        .hero-cta:hover { background: var(--accent); }
-        .hero-cta::after { content: '→'; font-size: 16px; }
-        .hero-image {
-            overflow: hidden;
-            position: relative;
-        }
-        .hero-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(0.15) contrast(1.05);
-            transition: var(--transition);
-        }
-        .hero-image:hover img { filter: grayscale(0); }
-
-        /* ===== Section Headers ===== */
-        .section-header {
-            display: grid;
-            grid-template-columns: 60px 1fr auto;
-            gap: 24px;
-            align-items: center;
-            padding: 80px 60px;
-            border-bottom: var(--border);
-        }
-        .section-num {
-            font-family: var(--mono);
-            font-size: 48px;
-            font-weight: 900;
-            color: var(--text);
-            line-height: 1;
-        }
-        .section-title {
-            font-family: var(--sans);
-            font-size: clamp(28px, 4vw, 56px);
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            line-height: 1;
-        }
-        .section-title .sub {
-            display: block;
-            font-size: 0.35em;
-            font-weight: 400;
-            font-family: var(--mono);
-            color: var(--text-secondary);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-top: 8px;
-        }
-        .section-meta {
-            font-family: var(--mono);
-            font-size: 9px;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-            text-align: right;
-            text-transform: uppercase;
-        }
-
-        /* ===== Chapter Cards ===== */
-        .chapter-grid {
-            display: grid;
-        }
-        .chapter-item {
-            display: grid;
-            grid-template-columns: 50% 50%;
-            border-bottom: var(--border);
-            min-height: 600px;
-        }
-        .chapter-item:nth-child(even) .chapter-img { order: 2; }
-        .chapter-item:nth-child(even) .chapter-body { order: 1; border-right: var(--border); }
-        .chapter-img {
-            overflow: hidden;
-            position: relative;
-            background: var(--bg-secondary);
-        }
-        .chapter-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 1s var(--transition);
-            filter: grayscale(0.1);
-        }
-        .chapter-item:hover .chapter-img img { transform: scale(1.03); filter: grayscale(0); }
-        .chapter-img::after {
+        .btn-cta::before {
             content: '';
             position: absolute;
-            bottom: 16px;
-            left: 16px;
-            font-family: var(--mono);
-            font-size: 8px;
-            letter-spacing: 0.3em;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-        .chapter-body {
-            padding: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .chapter-body:hover { background: rgba(0,0,0,0.02); }
-        .chapter-body::before {
-            content: attr(data-num);
-            position: absolute;
-            top: 20px;
-            left: 60px;
-            font-family: var(--mono);
-            font-size: 9px;
-            letter-spacing: 0.35em;
-            color: var(--accent);
-            text-transform: uppercase;
-        }
-        .chapter-body::after {
-            content: 'EXPLORE →';
-            position: absolute;
-            bottom: 20px;
-            right: 60px;
-            font-family: var(--mono);
-            font-size: 9px;
-            letter-spacing: 0.3em;
-            color: var(--text-muted);
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-light) 100%);
             opacity: 0;
-            transition: var(--transition);
+            transition: opacity 0.4s var(--ease-spring);
+            border-radius: inherit;
         }
-        .chapter-item:hover .chapter-body::after { opacity: 1; }
-        .chapter-name {
-            font-family: var(--sans);
-            font-size: clamp(24px, 3vw, 40px);
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-            margin-bottom: 8px;
-            padding-top: 20px;
-        }
-        .chapter-name .sub {
-            display: block;
-            font-size: 0.35em;
-            font-weight: 400;
-            font-family: var(--mono);
-            color: var(--text-secondary);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-top: 4px;
-        }
-        .chapter-quote {
-            font-family: var(--mono);
-            font-size: 11px;
-            font-style: italic;
-            color: var(--accent);
-            margin: 24px 0;
-            padding-left: 16px;
-            border-left: 2px solid var(--accent);
-            letter-spacing: 0.05em;
-        }
-        .chapter-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-weight: 300;
-            max-width: 480px;
-        }
-        .chapter-tags {
-            margin-top: 30px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .tag {
-            font-family: var(--mono);
-            font-size: 8px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            padding: 4px 10px;
-            border: 1px solid rgba(0,0,0,0.12);
-            color: var(--text-muted);
-        }
-
-        /* ===== Atelier ===== */
-        .atelier-section { padding: 0; }
-        .craft-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            border-bottom: var(--border);
-        }
-        .craft-item {
-            padding: 60px 40px;
-            border-right: var(--border);
+        .btn-cta:hover { transform: scale(1.03); box-shadow: 0 12px 40px rgba(184, 154, 104, 0.25); }
+        .btn-cta:hover::before { opacity: 1; }
+        .btn-cta:active { transform: scale(0.97); }
+        .btn-cta span { position: relative; z-index: 1; }
+        .btn-cta .btn-arrow {
             position: relative;
+            z-index: 1;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s var(--ease-spring),
+                        background 0.3s;
+            font-size: 14px;
         }
-        .craft-item:last-child { border-right: none; }
-        .craft-item::before {
-            content: attr(data-id);
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-family: var(--mono);
-            font-size: 8px;
-            letter-spacing: 0.3em;
-            color: var(--text-muted);
-        }
-        .craft-icon {
-            font-family: var(--sans);
-            font-size: 48px;
-            font-weight: 900;
-            color: var(--text);
-            margin-bottom: 24px;
-            line-height: 1;
-        }
-        .craft-item h4 {
-            font-family: var(--sans);
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: -0.01em;
-        }
-        .craft-item h4 .sub {
-            display: block;
-            font-family: var(--mono);
+        .btn-cta:hover .btn-arrow { transform: translateX(3px) translateY(-1px) scale(1.1); }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 48px;
+            border: 1px solid var(--text-primary);
+            color: var(--text-primary);
+            text-decoration: none;
             font-size: 10px;
-            color: var(--text-muted);
-            letter-spacing: 0.15em;
             text-transform: uppercase;
+            letter-spacing: 0.35em;
+            transition: all 0.5s var(--ease-spring);
+            font-family: var(--sans-en);
             font-weight: 400;
-            margin-top: 2px;
+            align-self: flex-start;
+            position: relative;
+            overflow: hidden;
         }
-        .craft-item p {
-            font-size: 12px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-weight: 300;
-            margin-top: 16px;
+        .btn:hover {
+            background: var(--text-primary);
+            color: #fff;
+            transform: scale(1.02);
+        }
+        .btn:active {
+            transform: scale(0.97);
+            opacity: 0.85;
         }
 
-        /* ===== Gallery ===== */
-        .gallery-section { padding: 0; }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+        /* ===== Philosophy ===== */
+        .philosophy {
+            padding: 200px 0;
+            text-align: center;
         }
-        .gallery-item {
-            aspect-ratio: 1/1;
+        .philosophy-inner {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .philosophy h2 {
+            font-family: var(--serif-zh);
+            font-size: clamp(32px, 4vw, 52px);
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 0.1em;
+        }
+        .philosophy h2 .sub {
+            display: block;
+            font-family: var(--serif-en);
+            font-size: 0.4em;
+            color: var(--text-secondary);
+            letter-spacing: 0.3em;
+            margin-top: 8px;
+            font-weight: 300;
+        }
+        .philosophy p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 2.2;
+            font-weight: 300;
+            max-width: 52ch;
+            margin-left: auto;
+            margin-right: auto;
+            text-wrap: balance;
+        }
+
+        /* ===== Collection Chapters ===== */
+        .chapter-card {
+            margin-bottom: 200px;
+            display: flex;
+            align-items: stretch;
+            gap: 80px;
+            background: rgba(0,0,0,0.015);
+            border: 1px solid rgba(0,0,0,0.035);
+            padding: 6px;
+            border-radius: 22px;
+            cursor: pointer;
+            transition: background 0.6s var(--ease-spring),
+                        box-shadow 0.6s var(--ease-spring);
+        }
+        .chapter-card:hover {
+            background: rgba(0,0,0,0.03);
+            box-shadow: 0 24px 80px rgba(0,0,0,0.06);
+        }
+        .chapter-card:nth-child(even) { flex-direction: row-reverse; }
+
+        .chapter-image {
+            flex: 1;
+            aspect-ratio: 4/5;
             overflow: hidden;
             background: var(--bg-secondary);
             position: relative;
-            border-right: var(--border);
+            border-radius: calc(22px - 6px);
         }
-        .gallery-item:last-child { border-right: none; }
-        .gallery-item img {
+        .chapter-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition);
-            filter: grayscale(0.2) contrast(1.02);
+            transition: transform 1.2s var(--ease-spring);
         }
-        .gallery-item:hover img { filter: grayscale(0); transform: scale(1.05); }
+        .chapter-card:hover .chapter-image img { transform: scale(1.04); }
 
-        /* ===== Newsletter ===== */
-        .newsletter {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            border-bottom: var(--border);
+        .chapter-info { flex: 0.85; padding: 48px 20px 48px 0; align-self: center; }
+        .chapter-card:nth-child(even) .chapter-info { padding: 48px 0 48px 20px; }
+        .chapter-num {
+            font-family: var(--serif-en);
+            font-size: 12px;
+            color: var(--accent-gold);
+            letter-spacing: 0.5em;
+            margin-bottom: 16px;
+            display: block;
         }
-        .newsletter-text {
-            padding: 80px 60px;
-            border-right: var(--border);
+        .chapter-info h3 {
+            font-family: var(--serif-zh);
+            font-size: clamp(28px, 3vw, 42px);
+            font-weight: 300;
+            margin-bottom: 8px;
+            letter-spacing: 0.06em;
+            line-height: 1.3;
         }
-        .newsletter-text h3 {
-            font-family: var(--sans);
-            font-size: clamp(24px, 3vw, 40px);
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            margin-bottom: 12px;
-        }
-        .newsletter-text .sub {
-            font-family: var(--mono);
-            font-size: 10px;
+        .chapter-info h3 .sub {
+            display: block;
+            font-family: var(--serif-en);
+            font-size: 0.5em;
             color: var(--text-secondary);
             letter-spacing: 0.15em;
+            margin-top: 4px;
+            font-weight: 300;
         }
-        .newsletter-form {
-            display: flex;
-            align-items: stretch;
+        .chapter-quote {
+            font-family: var(--serif-zh);
+            font-size: 15px;
+            color: var(--accent);
+            margin: 24px 0;
+            font-style: italic;
+            letter-spacing: 0.04em;
         }
-        .newsletter-form input {
-            flex: 1;
-            padding: 20px 24px;
-            border: none;
-            background: transparent;
-            font-family: var(--mono);
-            font-size: 12px;
-            letter-spacing: 0.1em;
-            outline: none;
-            border-top: var(--border);
+        .chapter-info p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 2;
+            margin-bottom: 30px;
+            font-weight: 300;
         }
-        .newsletter-form input:focus { border-color: var(--accent); }
-        .newsletter-form button {
-            padding: 20px 40px;
-            background: var(--text);
-            color: #fff;
-            border: none;
-            font-family: var(--mono);
+
+        .btn-link {
+            display: inline-block;
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.3em;
-            cursor: pointer;
-            transition: var(--transition);
-            border-top: var(--border);
-        }
-        .newsletter-form button:hover { background: var(--accent); }
-
-        /* ===== Footer ===== */
-        footer {
-            padding: 0;
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            border-bottom: var(--border);
-        }
-        .footer-cell {
-            padding: 40px 32px;
-            border-right: var(--border);
-        }
-        .footer-cell:last-child { border-right: none; }
-        .footer-cell-label {
-            font-family: var(--mono);
-            font-size: 8px;
-            letter-spacing: 0.3em;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 12px;
-        }
-        .footer-cell a {
-            font-size: 11px;
-            color: var(--text);
+            color: var(--text-primary);
             text-decoration: none;
-            display: block;
-            margin-bottom: 4px;
-            font-family: var(--mono);
-            letter-spacing: 0.1em;
+            border-bottom: 1px solid var(--text-primary);
+            padding-bottom: 4px;
+            font-family: var(--sans-en);
+            transition: all 0.3s;
         }
-        .footer-cell a:hover { color: var(--accent); }
-        .footer-bottom {
-            padding: 24px 32px;
-            display: grid;
-            grid-template-columns: 1fr auto;
-            font-family: var(--mono);
-            font-size: 8px;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
+        .btn-link:hover { color: var(--accent); border-color: var(--accent); }
 
-        /* ===== Reveal Animation ===== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            filter: blur(4px);
-            transition: opacity 0.8s var(--transition),
-                        transform 0.8s var(--transition),
-                        filter 0.8s var(--transition);
-        }
-        .reveal.active { opacity: 1; transform: translateY(0); filter: blur(0); }
-        .stagger-1 { transition-delay: 0.1s; }
-        .stagger-2 { transition-delay: 0.2s; }
-        .stagger-3 { transition-delay: 0.3s; }
-        .stagger-4 { transition-delay: 0.4s; }
-
-        /* ===== Modal ===== */
+        /* ===== Product Detail Modal ===== */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--bg-dark);
+            background: rgba(0,0,0,0.85);
             z-index: 2000;
             display: none;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s;
             overflow-y: auto;
         }
         .modal-overlay.active { display: block; opacity: 1; }
+
         .modal-content {
             width: 100%;
             max-width: 1200px;
             margin: 60px auto;
-            padding: 40px;
-            background: var(--bg);
+            padding: 60px 40px;
+            background: #fff;
         }
         .modal-close {
             position: fixed;
-            top: 20px;
-            right: 30px;
-            font-size: 14px;
+            top: 30px;
+            right: 40px;
+            font-size: 28px;
             color: #fff;
             cursor: pointer;
             z-index: 2100;
-            background: var(--accent);
+            background: none;
             border: none;
-            padding: 12px 20px;
-            font-family: var(--mono);
-            font-size: 9px;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            transition: var(--transition);
+            font-family: var(--sans-en);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            transition: opacity 0.3s;
         }
-        .modal-close:hover { background: #fff; color: var(--text); }
+        .modal-close:hover { opacity: 0.6; }
+
         .modal-header {
-            padding: 40px;
-            border-bottom: var(--border);
-            margin-bottom: 40px;
+            text-align: center;
+            margin-bottom: 50px;
         }
         .modal-header h2 {
-            font-family: var(--sans);
+            font-family: var(--serif-zh);
             font-size: 36px;
-            font-weight: 900;
-            text-transform: uppercase;
+            font-weight: 300;
         }
         .modal-header .sub {
-            font-family: var(--mono);
-            font-size: 10px;
+            font-family: var(--serif-en);
+            font-size: 14px;
             color: var(--text-secondary);
             letter-spacing: 0.2em;
-            margin-top: 4px;
+            margin-top: 8px;
         }
+
         .modal-gallery {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 2px;
+            gap: 16px;
         }
         .modal-gallery img {
             width: 100%;
@@ -749,13 +549,13 @@
             cursor: zoom-in;
             transition: var(--transition);
         }
-        .modal-gallery img:hover { opacity: 0.8; }
+        .modal-gallery img:hover { transform: scale(1.03); }
 
-        /* ===== Lightbox ===== */
+        /* ===== Lightbox (single image zoom) ===== */
         .lightbox {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--bg-dark);
+            background: rgba(0,0,0,0.92);
             z-index: 3000;
             display: none;
             align-items: center;
@@ -769,77 +569,336 @@
             object-fit: contain;
         }
 
+        /* ===== Atelier ===== */
+        .atelier-section {
+            background: var(--bg-secondary);
+            padding: 180px 0;
+        }
+        .atelier-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .atelier-inner h2 {
+            font-family: var(--serif-zh);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 300;
+            margin-bottom: 8px;
+        }
+        .atelier-inner h2 .sub {
+            display: block;
+            font-family: var(--serif-en);
+            font-size: 0.38em;
+            color: var(--text-secondary);
+            letter-spacing: 0.3em;
+            margin-top: 6px;
+        }
+        .atelier-inner p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 2.2;
+            margin-top: 30px;
+            max-width: 52ch;
+            margin-left: auto;
+            margin-right: auto;
+            text-wrap: balance;
+        }
+        .atelier-img {
+            margin-top: 80px;
+            width: 100%;
+            max-height: 600px;
+            object-fit: cover;
+        }
+
+        .craft-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+            margin-top: 100px;
+        }
+        .craft-item { text-align: center; }
+        .craft-icon {
+            font-family: var(--serif-zh);
+            font-size: 36px;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+        }
+        .craft-item h4 {
+            font-family: var(--serif-zh);
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 6px;
+        }
+        .craft-item h4 .sub {
+            display: block;
+            font-family: var(--serif-en);
+            font-size: 0.75em;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            font-weight: 300;
+        }
+        .craft-item p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+
+        /* ===== Gallery ===== */
+        .gallery-section { padding: 160px 0; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 80px;
+        }
+        .gallery-item {
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            border-radius: 14px;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .gallery-item:hover img { transform: scale(1.08); }
+
+        /* ===== Newsletter ===== */
+        .newsletter {
+            padding: 120px 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        .newsletter h3 {
+            font-family: var(--serif-zh);
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 8px;
+        }
+        .newsletter .sub {
+            font-family: var(--serif-en);
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+        }
+        .newsletter-form {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .newsletter-form input {
+            padding: 16px 24px;
+            border: 1px solid #ddd;
+            font-size: 13px;
+            width: 300px;
+            font-family: var(--sans-en);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .newsletter-form input:focus { border-color: var(--accent-gold); }
+        .newsletter-form button {
+            padding: 16px 36px;
+            background: var(--text-primary);
+            color: #fff;
+            border: none;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-family: var(--sans-en);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .newsletter-form button:hover { background: var(--accent); }
+
+        /* ===== Footer ===== */
+        footer {
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+            background: var(--bg-primary);
+        }
+        .footer-logo {
+            font-family: var(--serif-en);
+            font-size: 20px;
+            letter-spacing: 0.5em;
+            margin-bottom: 20px;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 36px;
+            margin-bottom: 40px;
+        }
+        .footer-links a {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-family: var(--sans-en);
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright {
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.2em;
+        }
+
         /* ===== Reduced Motion ===== */
         @media (prefers-reduced-motion: reduce) {
-            .reveal { opacity: 1; transform: none; filter: none; transition: none; }
-            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+            .reveal { opacity: 1; transform: none; transition: none; }
+            .chapter-image img { transition: none; }
+            .hero:hover .hero-image { transform: none; }
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        }
+
+        /* ===== Mobile Menu Toggle ===== */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 22px;
+            height: 1px;
+            background: var(--text-primary);
+            margin: 6px 0;
+            transition: all 0.3s;
+        }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ===== Touch-friendly tap targets ===== */
+        @media (hover: none) and (pointer: coarse) {
+            .btn-link { padding: 8px 0; }
+            .chapter-card { cursor: default; }
+            .chapter-image:active { opacity: 0.85; }
+            .nav-links li a { padding: 8px 0; }
+            .modal-gallery img { min-height: 120px; }
         }
 
         /* ===== Responsive ===== */
         @media (max-width: 1024px) {
-            .hero { grid-template-columns: 1fr; }
-            .hero-image { height: 50vh; }
-            .hero-text { border-right: none; }
-            .chapter-item { grid-template-columns: 1fr; }
-            .chapter-item:nth-child(even) .chapter-img { order: 0; }
-            .chapter-item:nth-child(even) .chapter-body { order: 0; border-right: none; }
-            .chapter-img { height: 60vh; }
-            .craft-grid { grid-template-columns: 1fr; }
-            .craft-item { border-right: none; border-bottom: var(--border); }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-grid { grid-template-columns: repeat(2, 1fr); }
-            .newsletter { grid-template-columns: 1fr; }
-            .newsletter-text { border-right: none; }
+            .container { padding: 0 40px; }
+            .hero-content { width: 50%; padding-left: 60px; }
+            .hero-image { clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%); }
+            .chapter-card { gap: 50px; }
+            .gallery-grid { grid-template-columns: repeat(3, 1fr); }
         }
         @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            .section-padding { padding: 100px 0; }
+
+            /* Mobile hamburger menu */
             .menu-toggle { display: block; }
             .nav-links {
                 position: fixed;
-                top: 60px;
+                top: 0;
                 right: -100%;
                 width: 260px;
-                height: calc(100vh - 60px);
-                background: var(--bg-dark);
+                height: 100vh;
+                background: rgba(255,255,255,0.98);
+                backdrop-filter: blur(20px);
                 flex-direction: column;
+                justify-content: center;
+                gap: 36px;
+                transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                border-left: 1px solid rgba(0,0,0,0.06);
                 padding: 0;
-                transition: right 0.3s;
+                margin: 0;
                 z-index: 999;
-                gap: 0;
             }
             .nav-links.open { right: 0; }
-            .nav-links li { border-right: none; border-bottom: var(--border); width: 100%; }
-            .nav-links li a { color: #fff; height: 50px; }
-            .nav-links li a:hover { background: var(--accent); }
-            .lang-toggle { color: #fff; }
-            .lang-toggle:hover { background: var(--accent); }
+            .nav-links li a {
+                font-size: 12px;
+                opacity: 0.7;
+            }
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.2);
+                z-index: 998;
+            }
+            .nav-overlay.active { display: block; }
 
-            .hero-text { padding: 60px 24px; }
-            .hero h1 { font-size: 48px; }
-            .hero-specs { grid-template-columns: 1fr; }
-            .section-header { padding: 60px 24px; grid-template-columns: 40px 1fr; }
-            .section-meta { display: none; }
-            .section-num { font-size: 32px; }
-            .chapter-body { padding: 40px 24px; }
-            .chapter-body::before { left: 24px; }
-            .chapter-body::after { display: none; }
-            .chapter-name { font-size: 28px; }
-            .craft-item { padding: 40px 24px; }
-            .newsletter-text { padding: 60px 24px; }
-            .newsletter-form { flex-direction: column; }
-            .newsletter-form input { border-right: var(--border); }
-            .footer-grid { grid-template-columns: 1fr; }
-            .footer-cell { border-right: none; border-bottom: var(--border); }
-            .modal-gallery { grid-template-columns: repeat(2, 1fr); }
+            .hero { min-height: 100svh; }
+            .hero-content { width: 100%; padding: 100px 24px 48px; }
+            .hero-image { position: relative; width: 100%; height: 55vh; clip-path: none; }
+            .hero h1 { font-size: 42px; }
+            .hero-desc { font-size: 14px; }
+
+            .chapter-card { flex-direction: column !important; gap: 24px; margin-bottom: 80px; }
+            .chapter-image { width: 100%; }
+            .chapter-info h3 { font-size: 28px; }
+
+            .philosophy { padding: 120px 0; }
+
+            .craft-grid { grid-template-columns: 1fr; gap: 40px; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+            .newsletter-form { flex-direction: column; align-items: center; }
+            .newsletter-form input { width: 100%; max-width: 300px; }
+
+            .footer-links { flex-wrap: wrap; gap: 20px; }
+
+            .modal-content { padding: 20px 16px; margin: 12px; }
+            .modal-gallery { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .modal-header h2 { font-size: 24px; }
         }
         @media (max-width: 480px) {
-            .hero-text { padding: 48px 16px; }
-            .hero h1 { font-size: 36px; }
-            .hero-id { font-size: 8px; margin-bottom: 24px; }
-            .section-header { padding: 40px 16px; }
-            .section-title { font-size: 24px; }
-            .chapter-body { padding: 32px 16px; }
-            .chapter-name { font-size: 24px; }
-            .gallery-grid { gap: 1px; }
+            .container { padding: 0 16px; }
+            .section-padding { padding: 80px 0; }
+
+            .hero-content { padding: 90px 16px 36px; }
+            .hero-image { height: 45vh; }
+            .hero h1 { font-size: 34px; }
+            .hero-label { font-size: 10px; letter-spacing: 0.4em; }
+            .hero-desc { font-size: 13px; line-height: 1.9; }
+            .btn { padding: 16px 36px; font-size: 9px; }
+
+            .philosophy { padding: 100px 0; }
+            .philosophy h2 { font-size: 28px; }
+            .accent-line { height: 60px; }
+
+            .chapter-card { margin-bottom: 60px; }
+            .chapter-info h3 { font-size: 24px; }
+            .chapter-num { font-size: 10px; }
+            .chapter-quote { font-size: 13px; margin: 16px 0; }
+            .chapter-info p { font-size: 13px; }
+
+            .atelier-inner h2 { font-size: 28px; }
+            .atelier-inner p { font-size: 13px; }
+
+            .craft-item { text-align: center; padding: 20px 0; }
+            .craft-icon { font-size: 28px; }
+            .craft-item h4 { font-size: 16px; }
+            .craft-item p { font-size: 12px; }
+
+            .gallery-grid { gap: 8px; }
+
+            .newsletter h3 { font-size: 22px; }
+            .newsletter .sub { font-size: 10px; }
+            .newsletter-form input { padding: 14px 18px; }
+            .newsletter-form button { padding: 14px 30px; }
+
+            .footer-logo { font-size: 16px; letter-spacing: 0.3em; }
+            .footer-links a { font-size: 10px; }
+            .copyright { font-size: 9px; }
+
+            .modal-content { padding: 16px 12px; margin: 8px; }
+            .modal-gallery { grid-template-columns: 1fr; gap: 6px; }
+            .modal-close { top: 16px; right: 16px; font-size: 24px; }
         }
     </style>
 </head>
@@ -848,7 +907,7 @@
 
     <!-- Navigation -->
     <nav id="main-nav">
-        <div class="nav-grid">
+        <div class="container" style="display:flex;justify-content:space-between;width:100%;align-items:center;">
             <div class="nav-brand">
                 <span data-lang="zh">韶光</span>
                 <span data-lang="en">AURORA</span>
@@ -880,428 +939,404 @@
     <div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
 
     <!-- ===== Hero ===== -->
-    <section class="hero" id="hero">
-        <div class="hero-text">
-            <div class="hero-id">
-                <span data-lang="zh">东方美学 · 2026 首发系列</span>
-                <span data-lang="en">Oriental Aesthetics · 2026 Debut</span>
-            </div>
+    <section class="hero">
+        <div class="hero-content reveal stagger-1">
+            <span class="hero-label">
+                <span data-lang="zh">东方复兴</span>
+                <span data-lang="en">Oriental Revival</span>
+            </span>
             <h1>
                 <span data-lang="zh">醉韶光</span>
-                <span data-lang="en">ZUI SHAO GUANG</span>
+                <span data-lang="en">Zui Shao Guang</span>
                 <span class="sub">
-                    <span data-lang="zh">韶光 AURORA — 限量收藏级人偶</span>
-                    <span data-lang="en">Limited Edition Collectible Dolls</span>
+                    <span data-lang="zh">韶光 · AURORA 首发系列</span>
+                    <span data-lang="en">The Debut Collection</span>
                 </span>
             </h1>
-            <div class="hero-specs">
+            <p class="hero-desc">
+                <span data-lang="zh">东方极简主义下的浪漫复兴，在时间与工艺的交汇点，捕捉那一抹惊鸿之美。每一尊，皆是限量收藏级艺术品。</span>
+                <span data-lang="en">A romantic revival under Oriental minimalism — capturing breathtaking beauty at the intersection of time and craft. Each doll is a limited-edition collectible work of art.</span>
+            </p>
+            <a href="#collection" class="btn-cta">
                 <span>
-                    <span class="brutalist-label">Edition</span>
-                    <em>100–200 pcs</em>
+                    <span data-lang="zh">探索选集</span>
+                    <span data-lang="en">Explore Collection</span>
                 </span>
-                <span>
-                    <span class="brutalist-label">Material</span>
-                    <em>Resin / Silk / Pearl</em>
-                </span>
-                <span>
-                    <span class="brutalist-label">Craft</span>
-                    <em>Hand-painted</em>
-                </span>
-            </div>
-            <a href="#collection" class="hero-cta">
-                <span data-lang="zh">探索选集</span>
-                <span data-lang="en">Explore</span>
+                <span class="btn-arrow">↗</span>
             </a>
         </div>
-        <div class="hero-image">
-            <img src="images/hero/gilded-cloud-hero.jpg" alt="Gilded Cloud">
-        </div>
+        <div class="hero-image"></div>
     </section>
 
     <!-- ===== Philosophy ===== -->
-    <section id="about">
-        <div class="section-header">
-            <div class="section-num">00</div>
-            <div>
-                <div class="section-title">
-                    <span data-lang="zh">以器载道</span>
-                    <span data-lang="en">CRAFTED WITH SOUL</span>
-                    <span class="sub">
-                        <span data-lang="zh">东方美学的当代收藏</span>
-                        <span data-lang="en">Contemporary Oriental Aesthetics</span>
-                    </span>
-                </div>
-            </div>
-            <div class="section-meta">
-                <span data-lang="zh">哲学 / Philosophy</span>
-                <span data-lang="en">Philosophy</span>
-            </div>
-        </div>
-        <div style="padding: 80px 60px; max-width: 680px; border-bottom: var(--border);">
-            <p class="reveal" style="font-size: 15px; color: var(--text-secondary); line-height: 2; font-weight: 300; text-wrap: balance;">
+    <section class="philosophy" id="about">
+        <div class="container philosophy-inner reveal">
+            <span class="eyebrow">
+                <span data-lang="zh">东方美学</span>
+                <span data-lang="en">Oriental Aesthetics</span>
+            </span>
+            <h2>
+                <span data-lang="zh">以器载道</span>
+                <span data-lang="en">Crafted with Soul</span>
+                <span class="sub">
+                    <span data-lang="zh">东方美学的当代收藏</span>
+                    <span data-lang="en">Contemporary Oriental Aesthetics</span>
+                </span>
+            </h2>
+            <p>
                 <span data-lang="zh">韶光 AURORA，源于对东方美学的深沉敬意。我们相信，真正的美不在于繁复的装饰，而在于留白中的气韵、简约中的深意。每一尊人偶，都是对千年东方文明的一次当代诠释——以手工艺的温度，凝固时光中那一抹不可复制的惊鸿。</span>
                 <span data-lang="en">AURORA was born from a profound reverence for Oriental aesthetics. We believe true beauty lies not in ornate decoration, but in the spirit within emptiness, the depth within simplicity. Each doll is a contemporary interpretation of millennia of Eastern civilization — a breath of irreplicable beauty, frozen in time through the warmth of artisanal craft.</span>
             </p>
         </div>
     </section>
 
-    <!-- ===== Collection ===== -->
-    <section id="collection">
-        <div class="section-header">
-            <div class="section-num">01</div>
-            <div>
-                <div class="section-title">
-                    <span data-lang="zh">选集</span>
-                    <span data-lang="en">COLLECTION</span>
-                    <span class="sub">
-                        <span data-lang="zh">醉韶光 · 首发系列 · 六章</span>
-                        <span data-lang="en">Zui Shao Guang · Debut Series · Six Chapters</span>
-                    </span>
-                </div>
-            </div>
-            <div class="section-meta">
-                <span class="brutalist-label">Limited Edition</span>
+    <!-- ===== Collection Chapters ===== -->
+    <section id="collection" class="section-padding container">
+        <div class="reveal text-center" style="margin-bottom:140px;">
+            <span class="eyebrow">
+                <span data-lang="zh">首发系列</span>
+                <span data-lang="en">The Collection</span>
+            </span>
+            <h2 style="font-family:var(--serif-zh);font-size:clamp(32px,4vw,50px);font-weight:300;">
+                <span data-lang="zh">选集回顾</span>
+                <span data-lang="en">The Chapters</span>
                 <br>
-                <span class="accent-red" style="font-weight:700;">2026</span>
+                <span style="font-size:14px;letter-spacing:0.5em;color:var(--text-muted);font-family:var(--serif-en);text-transform:uppercase;">
+                    <span data-lang="zh">醉韶光 · 首发系列</span>
+                    <span data-lang="en">Zui Shao Guang · Debut Series</span>
+                </span>
+            </h2>
+        </div>
+
+        <!-- Chapter 01: 金衣云裳 Gilded Cloud -->
+        <div class="chapter-card reveal" onclick="openModal('gilded-cloud')">
+            <div class="chapter-image">
+                <img src="images/products/gilded-cloud/03-full.jpg" alt="Gilded Cloud">
+            </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 01</span>
+                <h3>
+                    <span data-lang="zh">金衣云裳</span>
+                    <span data-lang="en">Gilded Cloud</span>
+                    <span class="sub">
+                        <span data-lang="zh">裁一段日光，洇入流金</span>
+                        <span data-lang="en">Cutting a ray of sunlight, bleeding into flowing gold</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"裁一段日光，洇入流金。"</span>
+                    <span data-lang="en">"A ray of sunlight, dissolved into liquid gold."</span>
+                </p>
+                <p>
+                    <span data-lang="zh">系列的首章，亦是关于"光"的初次探索。重磅真丝哑金面料，配合极致精细的苏绣工法，试图捕捉晚霞掠过宫檐的那一抹瞬时。它不只是玩偶的衣裳，而是一个关于权力和浪漫的古老梦境。凤凰金饰、珍珠垂坠、白狐绒领，每一处细节皆是权力与柔情的交织。</span>
+                    <span data-lang="en">The opening chapter — an exploration of "light." Heavyweight matte-gold silk, paired with supremely refined Suzhou embroidery, attempts to capture the fleeting moment when dusk sweeps across palace eaves. More than a doll's attire, it is an ancient dream of power and romance. Phoenix gold ornaments, pearl tassels, white fur collar — every detail weaves authority and tenderness.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 16 张 →</span>
+                    <span data-lang="en">View All 16 Images →</span>
+                </span>
             </div>
         </div>
 
-        <div class="chapter-grid">
-            <!-- Chapter 01 -->
-            <div class="chapter-item reveal" onclick="openModal('gilded-cloud')">
-                <div class="chapter-img">
-                    <img src="images/products/gilded-cloud/03-full.jpg" alt="Gilded Cloud">
-                </div>
-                <div class="chapter-body" data-num="001">
-                    <div class="chapter-name">
-                        <span data-lang="zh">金衣云裳</span>
-                        <span data-lang="en">GILDED CLOUD</span>
-                        <span class="sub">
-                            <span data-lang="zh">裁一段日光，洇入流金</span>
-                            <span data-lang="en">Cutting a ray of sunlight, bleeding into flowing gold</span>
-                        </span>
-                    </div>
-                    <div class="chapter-quote">
-                        <span data-lang="zh">"裁一段日光，洇入流金。"</span>
-                        <span data-lang="en">"A ray of sunlight, dissolved into liquid gold."</span>
-                    </div>
-                    <p class="chapter-desc">
-                        <span data-lang="zh">系列的首章，亦是关于"光"的初次探索。重磅真丝哑金面料，配合极致精细的苏绣工法，试图捕捉晚霞掠过宫檐的那一抹瞬时。</span>
-                        <span data-lang="en">The opening chapter — an exploration of "light." Heavyweight matte-gold silk, paired with supremely refined Suzhou embroidery, capturing the fleeting moment when dusk sweeps across palace eaves.</span>
-                    </p>
-                    <div class="chapter-tags">
-                        <span class="tag">SILK</span>
-                        <span class="tag">EMBROIDERY</span>
-                        <span class="tag">PHOENIX</span>
-                        <span class="tag">PEARL</span>
-                    </div>
-                </div>
+        <!-- Chapter 02: 墨韵帝华 Ink Emperor -->
+        <div class="chapter-card reveal" onclick="openModal('ink-emperor')">
+            <div class="chapter-image">
+                <img src="images/products/ink-emperor/03-full.jpg" alt="Ink Emperor">
             </div>
-
-            <!-- Chapter 02 -->
-            <div class="chapter-item reveal" onclick="openModal('ink-emperor')">
-                <div class="chapter-img">
-                    <img src="images/products/ink-emperor/03-full.jpg" alt="Ink Emperor">
-                </div>
-                <div class="chapter-body" data-num="002">
-                    <div class="chapter-name">
-                        <span data-lang="zh">墨韵帝华</span>
-                        <span data-lang="en">INK EMPEROR</span>
-                        <span class="sub">
-                            <span data-lang="zh">心有赤子，静水深流</span>
-                            <span data-lang="en">A pure heart, deep waters running still</span>
-                        </span>
-                    </div>
-                    <div class="chapter-quote">
-                        <span data-lang="zh">"心有赤子，静水深流。"</span>
-                        <span data-lang="en">"With a pure heart, the deepest waters flow in silence."</span>
-                    </div>
-                    <p class="chapter-desc">
-                        <span data-lang="zh">红色在东方语境中从不只是色彩，而是厚重的生命力。此章聚焦于庄重与温婉的平衡，珠翠交辉间，黑红金三色构建出权力场域的无声叙事。</span>
-                        <span data-lang="en">Red in the Oriental context is never merely a color — it is the weight of vitality. Black, red, and gold construct a silent narrative of power.</span>
-                    </p>
-                    <div class="chapter-tags">
-                        <span class="tag">BLACK</span>
-                        <span class="tag">RED</span>
-                        <span class="tag">GOLD</span>
-                        <span class="tag">BEADED VEIL</span>
-                    </div>
-                </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 02</span>
+                <h3>
+                    <span data-lang="zh">墨韵帝华</span>
+                    <span data-lang="en">Ink Emperor</span>
+                    <span class="sub">
+                        <span data-lang="zh">心有赤子，静水深流</span>
+                        <span data-lang="en">A pure heart, deep waters running still</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"心有赤子，静水深流。"</span>
+                    <span data-lang="en">"With a pure heart, the deepest waters flow in silence."</span>
+                </p>
+                <p>
+                    <span data-lang="zh">红色在东方语境中从不只是色彩，而是厚重的生命力。此章聚焦于庄重与温婉的平衡，珠翠交辉间，黑红金三色构建出权力场域的无声叙事。珠帘半面，长辫垂背，手持团扇——一位不可侵犯的东方女皇，以静制动，以柔克刚。</span>
+                    <span data-lang="en">Red in the Oriental context is never merely a color — it is the weight of vitality. This chapter balances solemnity and grace, where black, red, and gold construct a silent narrative of power. Half-veiled face, a long braid down the back, a round fan in hand — an inviolable Eastern empress, mastering stillness over motion, softness over force.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 16 张 →</span>
+                    <span data-lang="en">View All 16 Images →</span>
+                </span>
             </div>
+        </div>
 
-            <!-- Chapter 03 -->
-            <div class="chapter-item reveal" onclick="openModal('bamboo-song')">
-                <div class="chapter-img">
-                    <img src="images/products/bamboo-song/03-full.jpg" alt="Bamboo Song">
-                </div>
-                <div class="chapter-body" data-num="003">
-                    <div class="chapter-name">
-                        <span data-lang="zh">竹韵清歌</span>
-                        <span data-lang="en">BAMBOO SONG</span>
-                        <span class="sub">
-                            <span data-lang="zh">虚心有节，清风自来</span>
-                            <span data-lang="en">Hollow yet resilient, the clear breeze comes unbidden</span>
-                        </span>
-                    </div>
-                    <div class="chapter-quote">
-                        <span data-lang="zh">"虚心有节，清风自来。"</span>
-                        <span data-lang="en">"Hollow in heart, firm in character."</span>
-                    </div>
-                    <p class="chapter-desc">
-                        <span data-lang="zh">竹，东方文人的精神图腾。此章以翠绿色为主调，金线绣竹叶点缀其间，黑狐绒肩饰增添华贵层次。</span>
-                        <span data-lang="en">Bamboo — the spiritual totem of Oriental literati. Emerald green with gold-embroidered leaves, black fur accents.</span>
-                    </p>
-                    <div class="chapter-tags">
-                        <span class="tag">BAMBOO</span>
-                        <span class="tag">EMERALD</span>
-                        <span class="tag">GOLD THREAD</span>
-                    </div>
-                </div>
+        <!-- Chapter 03: 竹韵清歌 Bamboo Song -->
+        <div class="chapter-card reveal" onclick="openModal('bamboo-song')">
+            <div class="chapter-image">
+                <img src="images/products/bamboo-song/03-full.jpg" alt="Bamboo Song">
             </div>
-
-            <!-- Chapter 04 -->
-            <div class="chapter-item reveal" onclick="openModal('scarlet-verse')">
-                <div class="chapter-img">
-                    <img src="images/products/scarlet-verse/03-full.jpg" alt="Scarlet Verse">
-                </div>
-                <div class="chapter-body" data-num="004">
-                    <div class="chapter-name">
-                        <span data-lang="zh">红罗雅韵</span>
-                        <span data-lang="en">SCARLET VERSE</span>
-                        <span class="sub">
-                            <span data-lang="zh">牡丹亭畔，惊梦一瞬</span>
-                            <span data-lang="en">Beside the Peony Pavilion, a moment of awakening</span>
-                        </span>
-                    </div>
-                    <div class="chapter-quote">
-                        <span data-lang="zh">"牡丹亭畔，惊梦一瞬。"</span>
-                        <span data-lang="en">"Beside the Peony Pavilion — a dream awakened."</span>
-                    </div>
-                    <p class="chapter-desc">
-                        <span data-lang="zh">正红为底，牡丹为魂。立体高浮雕苏绣牡丹纹样在绸缎上绽放，蓝紫白三色丝线交织出盛唐气象。</span>
-                        <span data-lang="en">True red as foundation, peony as soul. Three-dimensional Suzhou embroidery peonies bloom across silk.</span>
-                    </p>
-                    <div class="chapter-tags">
-                        <span class="tag">PEONY</span>
-                        <span class="tag">SCARLET</span>
-                        <span class="tag">TANG DYNASTY</span>
-                    </div>
-                </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 03</span>
+                <h3>
+                    <span data-lang="zh">竹韵清歌</span>
+                    <span data-lang="en">Bamboo Song</span>
+                    <span class="sub">
+                        <span data-lang="zh">虚心有节，清风自来</span>
+                        <span data-lang="en">Hollow yet resilient, the clear breeze comes unbidden</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"虚心有节，清风自来。"</span>
+                    <span data-lang="en">"Hollow in heart, firm in character — the clear wind arrives of its own accord."</span>
+                </p>
+                <p>
+                    <span data-lang="zh">竹，东方文人的精神图腾。此章以翠绿色为主调，金线绣竹叶点缀其间，黑狐绒肩饰增添华贵层次。绿色珠帘半遮面，仿若竹林深处的隐士，清逸脱俗，与世无争。金缕腰带垂落流苏，动静之间尽显东方文人的风骨与气节。</span>
+                    <span data-lang="en">Bamboo — the spiritual totem of Oriental literati. Dominated by emerald green, gold-embroidered bamboo leaves scattered throughout, with black fur shoulder accents adding layers of luxury. A green beaded veil half-covers the face, like a hermit deep in a bamboo grove — refined, detached, at peace. The gold-thread belt with flowing tassels reveals the character and integrity of Oriental scholars in every gesture.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 12 张 →</span>
+                    <span data-lang="en">View All 12 Images →</span>
+                </span>
             </div>
+        </div>
 
-            <!-- Chapter 05 -->
-            <div class="chapter-item reveal" onclick="openModal('ethereal-jade')">
-                <div class="chapter-img">
-                    <img src="images/products/ethereal-jade/01-hero.jpg" alt="Ethereal Jade">
-                </div>
-                <div class="chapter-body" data-num="005">
-                    <div class="chapter-name">
-                        <span data-lang="zh">幻羽流光</span>
-                        <span data-lang="en">ETHEREAL JADE</span>
-                        <span class="sub">
-                            <span data-lang="zh">雾失楼台，月逐流波</span>
-                            <span data-lang="en">Towers lost in mist, moonlight chasing waves</span>
-                        </span>
-                    </div>
-                    <div class="chapter-quote">
-                        <span data-lang="zh">"雾失楼台，月逐流波。"</span>
-                        <span data-lang="en">"Towers dissolve in mist, moonlight follows the waves."</span>
-                    </div>
-                    <p class="chapter-desc">
-                        <span data-lang="zh">挑战透明度的极限。轻如蝉翼的特制绢纱，通过层叠覆盖营造出烟雨朦胧的意境。</span>
-                        <span data-lang="en">Pushing the limits of translucency. Specially crafted silk gauze, lighter than a cicada's wing, layered to create ethereal mood.</span>
-                    </p>
-                    <div class="chapter-tags">
-                        <span class="tag">TRANSLUCENT</span>
-                        <span class="tag">SILK GAUZE</span>
-                        <span class="tag">PEARL WHITE</span>
-                    </div>
-                </div>
+        <!-- Chapter 04: 红罗雅韵 Scarlet Verse -->
+        <div class="chapter-card reveal" onclick="openModal('scarlet-verse')">
+            <div class="chapter-image">
+                <img src="images/products/scarlet-verse/03-full.jpg" alt="Scarlet Verse">
             </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 04</span>
+                <h3>
+                    <span data-lang="zh">红罗雅韵</span>
+                    <span data-lang="en">Scarlet Verse</span>
+                    <span class="sub">
+                        <span data-lang="zh">牡丹亭畔，惊梦一瞬</span>
+                        <span data-lang="en">Beside the Peony Pavilion, a moment of awakening</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"牡丹亭畔，惊梦一瞬。"</span>
+                    <span data-lang="en">"Beside the Peony Pavilion — a dream awakened in a single breath."</span>
+                </p>
+                <p>
+                    <span data-lang="zh">正红为底，牡丹为魂。立体高浮雕苏绣牡丹纹样在绸缎上绽放，蓝紫白三色丝线交织出盛唐气象。红石榴发饰与金蝶步摇呼应，白色广袖飘逸如云。这是关于"爱"与"梦"的章节——《牡丹亭》中杜丽娘的魂魄，跨越生死，只为那一眼惊鸿。</span>
+                    <span data-lang="en">True red as the foundation, peony as the soul. Three-dimensional Suzhou embroidery peonies bloom across silk, where blue, purple, and white threads conjure the grandeur of the Tang dynasty. Red pomegranate hair ornaments echo golden butterfly pins; white wide sleeves float like clouds. This is a chapter about "love" and "dream" — the spirit of Du Liniang from The Peony Pavilion, crossing life and death, for that single breathtaking glance.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 10 张 →</span>
+                    <span data-lang="en">View All 10 Images →</span>
+                </span>
+            </div>
+        </div>
 
-            <!-- Chapter 06 -->
-            <div class="chapter-item reveal" onclick="openModal('autumn-gold')">
-                <div class="chapter-img">
-                    <img src="images/products/autumn-gold/01-hero.jpg" alt="Autumn Gold">
-                </div>
-                <div class="chapter-body" data-num="006">
-                    <div class="chapter-name">
-                        <span data-lang="zh">秋金</span>
-                        <span data-lang="en">AUTUMN GOLD</span>
-                        <span class="sub">
-                            <span data-lang="zh">云肩叠翠，蝶舞金秋</span>
-                            <span data-lang="en">Layered cloud collar, butterflies in autumn gold</span>
-                        </span>
-                    </div>
-                    <div class="chapter-quote">
-                        <span data-lang="zh">"云肩叠翠，蝶舞金秋。"</span>
-                        <span data-lang="en">"Layered cloud shoulders, butterflies dancing in autumn gold."</span>
-                    </div>
-                    <p class="chapter-desc">
-                        <span data-lang="zh">芥黄金色缎袍搭配紫色云肩，蝴蝶纹样居中，珍珠边框镶饰。此章是对"丰盛"的礼赞。</span>
-                        <span data-lang="en">A mustard-gold satin robe paired with a purple cloud collar, butterfly motif at center. A celebration of abundance.</span>
-                    </p>
-                    <div class="chapter-tags">
-                        <span class="tag">CLOUD COLLAR</span>
-                        <span class="tag">BUTTERFLY</span>
-                        <span class="tag">PALACE</span>
-                    </div>
-                </div>
+        <!-- Chapter 05: 幻羽流光 Ethereal Jade -->
+        <div class="chapter-card reveal" onclick="openModal('ethereal-jade')">
+            <div class="chapter-image">
+                <img src="images/products/ethereal-jade/01-hero.jpg" alt="Ethereal Jade">
+            </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 05</span>
+                <h3>
+                    <span data-lang="zh">幻羽流光</span>
+                    <span data-lang="en">Ethereal Jade</span>
+                    <span class="sub">
+                        <span data-lang="zh">雾失楼台，月逐流波</span>
+                        <span data-lang="en">Towers lost in mist, moonlight chasing the flowing waves</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"雾失楼台，月逐流波。"</span>
+                    <span data-lang="en">"Towers dissolve in mist, moonlight follows the rippling waves."</span>
+                </p>
+                <p>
+                    <span data-lang="zh">挑战透明度的极限。轻如蝉翼的特制绢纱，通过层叠覆盖营造出烟雨朦胧的意境。它是虚与实的边界，仿佛那尊灵动的人偶正处于从梦境迈入现实的刹那——轻盈、超脱、不可捉摸。珍珠白眼眸与银白发色，赋予她超越尘世的仙灵气质。</span>
+                    <span data-lang="en">Pushing the limits of translucency. Specially crafted silk gauze, lighter than a cicada's wing, layered to create the ethereal mood of misty rain. It is the boundary between the void and the real — as if this agile doll stands at the very moment of stepping from dream into reality. Light, transcendent, elusive. Pearl-white eyes and silver-white hair grant her a fairy-like quality beyond the mortal realm.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 2 张 →</span>
+                    <span data-lang="en">View All 2 Images →</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Chapter 06: 秋金 Autumn Gold -->
+        <div class="chapter-card reveal" onclick="openModal('autumn-gold')">
+            <div class="chapter-image">
+                <img src="images/products/autumn-gold/01-hero.jpg" alt="Autumn Gold">
+            </div>
+            <div class="chapter-info">
+                <span class="chapter-num">Chapter 06</span>
+                <h3>
+                    <span data-lang="zh">秋金</span>
+                    <span data-lang="en">Autumn Gold</span>
+                    <span class="sub">
+                        <span data-lang="zh">云肩叠翠，蝶舞金秋</span>
+                        <span data-lang="en">Layered cloud collar, butterflies dancing in golden autumn</span>
+                    </span>
+                </h3>
+                <p class="chapter-quote">
+                    <span data-lang="zh">"云肩叠翠，蝶舞金秋。"</span>
+                    <span data-lang="en">"Layered cloud shoulders, butterflies dancing in autumn gold."</span>
+                </p>
+                <p>
+                    <span data-lang="zh"> 芥黄金色缎袍搭配紫色云肩（云肩），蝴蝶纹样居中，珍珠边框镶饰。高耸发髻上金色丝线与紫色花朵交映，珍珠簇拥间尽显宫廷贵气。此章是对"丰盛"的礼赞——秋收之金，华而不艳，雍容而内敛。</span>
+                    <span data-lang="en">A mustard-gold satin robe paired with a purple cloud collar (yunjian), butterfly motif at center, pearl-bordered. The towering bun adorned with gold filigree and purple flowers, pearl clusters exuding palace elegance. This chapter celebrates "abundance" — the gold of autumn harvest, magnificent yet restrained, opulent yet understated.</span>
+                </p>
+                <span class="btn-link">
+                    <span data-lang="zh">查看全部 6 张 →</span>
+                    <span data-lang="en">View All 6 Images →</span>
+                </span>
             </div>
         </div>
     </section>
 
     <!-- ===== Atelier ===== -->
     <section id="atelier" class="atelier-section">
-        <div class="section-header">
-            <div class="section-num">02</div>
-            <div>
-                <div class="section-title">
-                    <span data-lang="zh">匠心</span>
-                    <span data-lang="en">ATELIER</span>
-                    <span class="sub">
-                        <span data-lang="zh">高定级别的纯手工制作</span>
-                        <span data-lang="en">Haute Couture Craftsmanship</span>
-                    </span>
-                </div>
-            </div>
-            <div class="section-meta">
-                <span class="brutalist-label">Technique</span>
-            </div>
+        <div class="container atelier-inner reveal">
+            <span class="eyebrow">
+                <span data-lang="zh">高定工艺</span>
+                <span data-lang="en">Haute Couture Craft</span>
+            </span>
+            <h2>
+                <span data-lang="zh">匠心工坊</span>
+                <span data-lang="en">The Atelier</span>
+                <span class="sub">
+                    <span data-lang="zh">高定级别的纯手工制作</span>
+                    <span data-lang="en">Haute Couture Craftsmanship</span>
+                </span>
+            </h2>
+            <p>
+                <span data-lang="zh">每一尊玩偶都是一段被凝固的时光。从妆面的精雕细琢到每一寸丝绸的严苛挑选，我们追求的不仅是外在的华丽，更是内在的风骨。Aurora 坚持"高定级别"的纯手工制作，让每一个细节都经得起审美的挑剔。</span>
+                <span data-lang="en">Each doll is a frozen moment of time — a breath suspended in resin and silk. From the meticulous carving of facial makeup to the rigorous selection of every inch of silk, we pursue not merely external splendor, but inner character. AURORA insists on haute couture-level handcraftsmanship, ensuring every detail withstands the most discerning aesthetic judgment.</span>
+            </p>
         </div>
-        <div class="craft-grid">
-            <div class="craft-item reveal" data-id="CRAFT_001">
-                <div class="craft-icon">绣</div>
-                <h4>
-                    <span data-lang="zh">苏绣</span>
-                    <span data-lang="en">Suzhou Embroidery</span>
-                    <span class="sub">
-                        <span data-lang="zh">非遗工艺</span>
-                        <span data-lang="en">Intangible Heritage</span>
-                    </span>
-                </h4>
-                <p>
-                    <span data-lang="zh">每一片花瓣、每一只蝴蝶，皆由苏绣匠人以手工一针一线绣制。丝线细如发丝，色彩过渡自然如水墨。</span>
-                    <span data-lang="en">Every petal, every butterfly — hand-stitched by Suzhou masters. Silk threads finer than hair.</span>
-                </p>
-            </div>
-            <div class="craft-item reveal" data-id="CRAFT_002">
-                <div class="craft-icon">妆</div>
-                <h4>
-                    <span data-lang="zh">手绘面妆</span>
-                    <span data-lang="en">Hand-Painted Face</span>
-                    <span class="sub">
-                        <span data-lang="zh">一笔一画皆灵魂</span>
-                        <span data-lang="en">Every Stroke Has Soul</span>
-                    </span>
-                </h4>
-                <p>
-                    <span data-lang="zh">面妆由专业妆面师手工绘制，渐变唇色、眼影晕染、眉形勾勒，每一尊皆有独特的面部表情与灵魂。</span>
-                    <span data-lang="en">Facial makeup hand-painted by artists — gradient lips, blended eyeshadow, defined brows.</span>
-                </p>
-            </div>
-            <div class="craft-item reveal" data-id="CRAFT_003">
-                <div class="craft-icon">饰</div>
-                <h4>
-                    <span data-lang="zh">金工珠宝</span>
-                    <span data-lang="en">Goldsmith Jewelry</span>
-                    <span class="sub">
-                        <span data-lang="zh">微观世界的精致</span>
-                        <span data-lang="en">Refinement in Miniature</span>
-                    </span>
-                </h4>
-                <p>
-                    <span data-lang="zh">发簪、步摇、云肩、项链——每一件配饰皆按珠宝级别打造，珍珠、玉石、珊瑚、绿松石镶嵌于金铜丝线之间。</span>
-                    <span data-lang="en">Hairpins, buyao, cloud collars — each crafted at jewelry level with pearls, jade, coral, turquoise.</span>
-                </p>
+        <div class="container">
+            <img class="atelier-img reveal" src="images/products/gilded-cloud/02-detail.jpg" alt="Craftsmanship Detail">
+        </div>
+        <div class="container" style="max-width:1000px;">
+            <div class="craft-grid">
+                <div class="craft-item bezel-card reveal stagger-1">
+                    <div class="bezel-card-inner" style="padding:40px 24px;">
+                        <div class="craft-icon">绣</div>
+                        <h4>
+                            <span data-lang="zh">苏绣</span>
+                            <span data-lang="en">Suzhou Embroidery</span>
+                            <span class="sub">
+                                <span data-lang="zh">非遗工艺</span>
+                                <span data-lang="en">Intangible Heritage Craft</span>
+                            </span>
+                        </h4>
+                        <p>
+                            <span data-lang="zh">每一片花瓣、每一只蝴蝶，皆由苏绣匠人以手工一针一线绣制。丝线细如发丝，色彩过渡自然如水墨。</span>
+                            <span data-lang="en">Every petal, every butterfly — hand-stitched by Suzhou embroidery masters. Silk threads finer than hair, color transitions as natural as ink wash painting.</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="craft-item bezel-card reveal stagger-2">
+                    <div class="bezel-card-inner" style="padding:40px 24px;">
+                        <div class="craft-icon">妆</div>
+                        <h4>
+                            <span data-lang="zh">手绘面妆</span>
+                            <span data-lang="en">Hand-Painted Face</span>
+                            <span class="sub">
+                                <span data-lang="zh">一笔一画皆灵魂</span>
+                                <span data-lang="en">Every Stroke Has Soul</span>
+                            </span>
+                        </h4>
+                        <p>
+                            <span data-lang="zh">面妆由专业妆面师手工绘制，渐变唇色、眼影晕染、眉形勾勒，每一尊皆有独特的面部表情与灵魂。</span>
+                            <span data-lang="en">Facial makeup hand-painted by professional artists — gradient lips, blended eyeshadow, defined brows. Each doll carries a unique expression and soul.</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="craft-item bezel-card reveal stagger-3">
+                    <div class="bezel-card-inner" style="padding:40px 24px;">
+                        <div class="craft-icon">饰</div>
+                        <h4>
+                            <span data-lang="zh">金工珠宝</span>
+                            <span data-lang="en">Goldsmith Jewelry</span>
+                            <span class="sub">
+                                <span data-lang="zh">微观世界的精致</span>
+                                <span data-lang="en">Refinement in Miniature</span>
+                            </span>
+                        </h4>
+                        <p>
+                            <span data-lang="zh">发簪、步摇、云肩、项链——每一件配饰皆按珠宝级别打造，珍珠、玉石、珊瑚、绿松石，镶嵌于金铜丝线之间。</span>
+                            <span data-lang="en">Hairpins, buyao, cloud collars, necklaces — each accessory crafted at jewelry level. Pearls, jade, coral, turquoise, set between gold and copper wire.</span>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ===== Gallery ===== -->
-    <section id="gallery" class="gallery-section">
-        <div class="section-header">
-            <div class="section-num">03</div>
-            <div>
-                <div class="section-title">
-                    <span data-lang="zh">瞬间</span>
-                    <span data-lang="en">GALLERY</span>
-                    <span class="sub">
-                        <span data-lang="zh">瞬间与永恒</span>
-                        <span data-lang="en">Captured Moments</span>
-                    </span>
-                </div>
-            </div>
-            <div class="section-meta">
-                <span class="brutalist-label">12 Images</span>
-            </div>
+    <section id="gallery" class="gallery-section container">
+        <div class="reveal text-center" style="margin-bottom:60px;">
+            <span class="eyebrow">
+                <span data-lang="zh">瞬间与永恒</span>
+                <span data-lang="en">Gallery</span>
+            </span>
+            <h2 style="font-family:var(--serif-zh);font-size:clamp(28px,3vw,36px);font-weight:300;">
+                <span data-lang="zh">瞬间与永恒</span>
+                <span data-lang="en">Captured Moments</span>
+            </h2>
         </div>
         <div class="gallery-grid">
-            <div class="gallery-item"><img src="images/gallery/IMG_3851.jpg" alt="Gallery"></div>
-            <div class="gallery-item"><img src="images/gallery/IMG_3839.jpg" alt="Gallery"></div>
-            <div class="gallery-item"><img src="images/gallery/IMG_3840.jpg" alt="Gallery"></div>
-            <div class="gallery-item"><img src="images/gallery/IMG_3841.jpg" alt="Gallery"></div>
-            <div class="gallery-item"><img src="images/gallery/IMG_3842.jpg" alt="Gallery"></div>
-            <div class="gallery-item"><img src="images/gallery/IMG_3843.jpg" alt="Gallery"></div>
-            <div class="gallery-item"><img src="images/gallery/IMG_3844.jpg" alt="Gallery"></div>
-            <div class="gallery-item"><img src="images/gallery/IMG_3845.jpg" alt="Gallery"></div>
+            <div class="gallery-item bezel-card reveal stagger-1"><div class="bezel-card-inner"><img src="images/gallery/IMG_3851.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-2"><div class="bezel-card-inner"><img src="images/gallery/IMG_3839.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-3"><div class="bezel-card-inner"><img src="images/gallery/IMG_3840.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-4"><div class="bezel-card-inner"><img src="images/gallery/IMG_3841.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-1"><div class="bezel-card-inner"><img src="images/gallery/IMG_3842.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-2"><div class="bezel-card-inner"><img src="images/gallery/IMG_3843.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-3"><div class="bezel-card-inner"><img src="images/gallery/IMG_3844.jpg" alt="Gallery"></div></div>
+            <div class="gallery-item bezel-card reveal stagger-4"><div class="bezel-card-inner"><img src="images/gallery/IMG_3845.jpg" alt="Gallery"></div></div>
         </div>
     </section>
 
     <!-- ===== Newsletter ===== -->
-    <section class="newsletter">
-        <div class="newsletter-text">
-            <div class="brutalist-label" style="margin-bottom:12px; color:var(--accent);">
+    <section class="newsletter reveal">
+        <div class="container">
+            <span class="eyebrow">
                 <span data-lang="zh">加入收藏</span>
                 <span data-lang="en">Join the List</span>
-            </div>
+            </span>
             <h3>
                 <span data-lang="zh">成为收藏家</span>
-                <span data-lang="en">BECOME A COLLECTOR</span>
+                <span data-lang="en">Become a Collector</span>
             </h3>
             <p class="sub">
                 <span data-lang="zh">获取首发系列预售信息与独家收藏资格</span>
                 <span data-lang="en">Receive pre-sale info and exclusive collector access</span>
             </p>
+            <form class="newsletter-form" onsubmit="event.preventDefault()">
+                <input type="email" placeholder="your@email.com">
+                <button type="submit">
+                    <span data-lang="zh">订阅</span>
+                    <span data-lang="en">Subscribe</span>
+                </button>
+            </form>
         </div>
-        <form class="newsletter-form" onsubmit="event.preventDefault()">
-            <input type="email" placeholder="your@email.com">
-            <button type="submit">
-                <span data-lang="zh">订阅</span>
-                <span data-lang="en">SUBSCRIBE</span>
-            </button>
-        </form>
     </section>
 
     <!-- ===== Footer ===== -->
     <footer>
-        <div class="footer-grid">
-            <div class="footer-cell">
-                <div class="footer-cell-label">Navigation</div>
+        <div class="container">
+            <div class="footer-logo">AURORA</div>
+            <div class="footer-links">
                 <a href="#collection">Collection</a>
                 <a href="#atelier">Atelier</a>
-                <a href="#gallery">Gallery</a>
                 <a href="#about">About</a>
-            </div>
-            <div class="footer-cell">
-                <div class="footer-cell-label">Social</div>
                 <a href="#">Instagram</a>
                 <a href="#">Xiaohongshu</a>
-                <a href="#">WeChat</a>
             </div>
-            <div class="footer-cell">
-                <div class="footer-cell-label">Contact</div>
-                <a href="mailto:sales@aurora-studio.com">sales@aurora-studio.com</a>
-            </div>
-            <div class="footer-cell">
-                <div class="footer-cell-label">Legal</div>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>&copy; 2026 韶光 AURORA Studio — <span data-lang="zh">东方美学的当代收藏</span><span data-lang="en">Contemporary Oriental Aesthetics</span></span>
-            <span>SHANGHAI / BEIJING</span>
+            <p class="copyright">
+                &copy; 2026 韶光 AURORA Studio. All rights reserved.
+                <br>
+                <span style="margin-top:8px;display:inline-block;opacity:0.5;">
+                    <span data-lang="zh">东方美学的当代收藏</span>
+                    <span data-lang="en">Contemporary Oriental Aesthetics</span>
+                </span>
+            </p>
         </div>
     </footer>
 
@@ -1332,6 +1367,16 @@
         window.addEventListener("scroll", reveal);
         window.addEventListener("load", reveal);
 
+        // ===== Navbar Scroll =====
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 80) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
         // ===== Language Toggle =====
         function toggleLang() {
             const body = document.body;
@@ -1361,12 +1406,36 @@
 
         // ===== Product Modal =====
         const PRODUCTS = {
-            'gilded-cloud': { nameZh: '金衣云裳', nameEn: 'Gilded Cloud', dir: 'gilded-cloud' },
-            'ink-emperor': { nameZh: '墨韵帝华', nameEn: 'Ink Emperor', dir: 'ink-emperor' },
-            'bamboo-song': { nameZh: '竹韵清歌', nameEn: 'Bamboo Song', dir: 'bamboo-song' },
-            'scarlet-verse': { nameZh: '红罗雅韵', nameEn: 'Scarlet Verse', dir: 'scarlet-verse' },
-            'ethereal-jade': { nameZh: '幻羽流光', nameEn: 'Ethereal Jade', dir: 'ethereal-jade' },
-            'autumn-gold': { nameZh: '秋金', nameEn: 'Autumn Gold', dir: 'autumn-gold' }
+            'gilded-cloud': {
+                nameZh: '金衣云裳',
+                nameEn: 'Gilded Cloud',
+                dir: 'gilded-cloud'
+            },
+            'ink-emperor': {
+                nameZh: '墨韵帝华',
+                nameEn: 'Ink Emperor',
+                dir: 'ink-emperor'
+            },
+            'bamboo-song': {
+                nameZh: '竹韵清歌',
+                nameEn: 'Bamboo Song',
+                dir: 'bamboo-song'
+            },
+            'scarlet-verse': {
+                nameZh: '红罗雅韵',
+                nameEn: 'Scarlet Verse',
+                dir: 'scarlet-verse'
+            },
+            'ethereal-jade': {
+                nameZh: '幻羽流光',
+                nameEn: 'Ethereal Jade',
+                dir: 'ethereal-jade'
+            },
+            'autumn-gold': {
+                nameZh: '秋金',
+                nameEn: 'Autumn Gold',
+                dir: 'autumn-gold'
+            }
         };
 
         function openModal(productId) {
@@ -1376,7 +1445,12 @@
             const modal = document.getElementById('modal');
             const content = document.getElementById('modalContent');
 
-            const suffixes = ['-hero.jpg', '-detail.jpg', '-full.jpg', '-angle.jpg', '-angle2.jpg', '-back.jpg', '-pose.jpg', '-close.jpg', '-portrait.jpg'];
+            // Use only images that actually exist in the product directory
+            const suffixes = [
+                '-hero.jpg', '-detail.jpg', '-full.jpg', '-angle.jpg',
+                '-angle2.jpg', '-back.jpg', '-pose.jpg', '-close.jpg',
+                '-portrait.jpg'
+            ];
             const existingFiles = [];
             for (let i = 1; i <= 20; i++) {
                 const num = i.toString().padStart(2, '0');
@@ -1388,6 +1462,7 @@
             let imagesHtml = '';
             for (const file of existingFiles) {
                 const src = `images/products/${product.dir}/${file}`;
+                const baseName = file.replace('.jpg', '');
                 imagesHtml += `<img src="${src}" alt="${product.nameEn}" onclick="openLightbox(this.src)" onerror="this.style.display='none'">`;
             }
 
@@ -1417,6 +1492,7 @@
             document.body.style.overflow = '';
         }
 
+        // Close modal on overlay click
         document.getElementById('modal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
@@ -1424,12 +1500,34 @@
             if (e.target === this) closeLightbox();
         });
 
+        // Close lightbox on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeLightbox();
                 closeModal();
             }
         });
+
+        // ===== Active Nav Spy =====
+        const sections = document.querySelectorAll('section[id], .philosophy');
+        const navItems = document.querySelectorAll('.nav-links li a');
+
+        function updateActiveNav() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 300) {
+                    current = '#' + section.getAttribute('id');
+                }
+            });
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === current) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', updateActiveNav);
     </script>
 
 </body>
