@@ -8,6 +8,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>韶光 AURORA — 东方美学的当代收藏 | Contemporary Oriental Aesthetics</title>
     <meta name="description" content="AURORA Studio — 以当代工艺诠释东方美学，每一尊人偶皆为限量收藏级艺术品。Limited edition collectible dolls inspired by Oriental aesthetics and traditional craftsmanship.">
+    <meta property="og:title" content="韶光 AURORA — 东方美学的当代收藏">
+    <meta property="og:description" content="Limited edition collectible dolls inspired by Oriental aesthetics and traditional craftsmanship.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jamwana.github.io/aurora-studio/">
+    <meta property="og:image" content="https://jamwana.github.io/aurora-studio/images/hero/gilded-cloud-hero.jpg">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         /* ===== Design Tokens ===== */
@@ -34,13 +42,42 @@
         html { scroll-behavior: smooth; }
 
         body {
-            background: #fff;
+            background: var(--bg-primary);
             color: var(--text-primary);
             font-family: var(--sans-zh), var(--sans-en);
             line-height: 1.8;
             font-weight: 300;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
+            text-wrap: pretty;
+        }
+
+        /* ===== Skip to Content ===== */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            padding: 12px 24px;
+            background: var(--bg-dark);
+            color: #fff;
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            z-index: 9999;
+            transition: top 0.2s;
+        }
+        .skip-link:focus { top: 0; }
+
+        /* ===== Grain Overlay ===== */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
         }
 
         /* ===== Utility ===== */
@@ -132,9 +169,24 @@
         }
         .lang-toggle:hover { opacity: 1; }
 
+        /* ===== Focus Rings (Accessibility) ===== */
+        :focus-visible {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 3px;
+        }
+        a:focus-visible {
+            outline-offset: 5px;
+        }
+        button:focus-visible {
+            outline-offset: 3px;
+        }
+
+        /* ===== Active Navigation State ===== */
+        .nav-links li a.active { opacity: 1; border-bottom: 1px solid var(--accent-gold); }
+
         /* ===== Hero ===== */
         .hero {
-            height: 100vh;
+            min-height: 100dvh;
             display: flex;
             position: relative;
             overflow: hidden;
@@ -177,6 +229,7 @@
             margin: 30px 0 50px;
             font-weight: 300;
             line-height: 2;
+            text-wrap: balance;
         }
         .hero-image {
             width: 60%;
@@ -207,6 +260,10 @@
         .btn:hover {
             background: var(--text-primary);
             color: #fff;
+        }
+        .btn:active {
+            transform: scale(0.98);
+            opacity: 0.85;
         }
 
         /* ===== Philosophy ===== */
@@ -239,6 +296,10 @@
             color: var(--text-secondary);
             line-height: 2.2;
             font-weight: 300;
+            max-width: 52ch;
+            margin-left: auto;
+            margin-right: auto;
+            text-wrap: balance;
         }
 
         /* ===== Collection Chapters ===== */
@@ -437,6 +498,10 @@
             color: var(--text-secondary);
             line-height: 2.2;
             margin-top: 30px;
+            max-width: 52ch;
+            margin-left: auto;
+            margin-right: auto;
+            text-wrap: balance;
         }
         .atelier-img {
             margin-top: 80px;
@@ -582,6 +647,14 @@
             font-size: 10px;
             color: var(--text-muted);
             letter-spacing: 0.2em;
+        }
+
+        /* ===== Reduced Motion ===== */
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+            .chapter-image img { transition: none; }
+            .hero:hover .hero-image { transform: none; }
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
         }
 
         /* ===== Mobile Menu Toggle ===== */
@@ -730,6 +803,7 @@
     </style>
 </head>
 <body>
+    <a href="#collection" class="skip-link">Skip to content</a>
 
     <!-- Navigation -->
     <nav id="main-nav">
@@ -1297,13 +1371,34 @@
             if (e.target === this) closeLightbox();
         });
 
-        // Close modals on Escape key
+        // Close lightbox on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeLightbox();
                 closeModal();
             }
         });
+
+        // ===== Active Nav Spy =====
+        const sections = document.querySelectorAll('section[id], .philosophy');
+        const navItems = document.querySelectorAll('.nav-links li a');
+
+        function updateActiveNav() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 300) {
+                    current = '#' + section.getAttribute('id');
+                }
+            });
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === current) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', updateActiveNav);
     </script>
 
 </body>
